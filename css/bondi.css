@@ -1,0 +1,1980 @@
+:root{
+    --dark-color: #1d2858;
+    --dark-grey: #9e9bbc;
+    --light-grey: #7274a0;
+    --section-color: #cbcddf;
+}
+body{
+    overflow-x: hidden;
+    font-family: "Roboto", sans-serif;
+    background-color: white;
+
+}
+.special-btn{
+    border: none;
+    color: var(--dark-color);
+    font-weight: bold;
+    background-color: transparent;
+}ain
+.form-btn{
+    background-color: #1D2959;
+    color: white;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border: none;
+    width: 100%;
+
+}
+
+.form-btn2{
+    background-color: var(--light-grey);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    width: 25%;
+}
+
+.main-btn{
+    background-color: white;
+    color: var(--dark-color);
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.main-btn2{
+    background-color: white;
+    color: var(--dark-color);
+    padding: 1rem 1.5rem;
+    border: none;
+    box-shadow: 0 0 0 1px var(--light-grey) inset;
+    border-radius: 6px;
+    font-weight: bold;
+}
+.main-btn3{
+    background-color: var(--dark-color);
+    color: white;
+    padding: 1rem 1.5rem;
+    border: none;
+    box-shadow: 0 0 0 1px var(--light-grey) inset;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.main-btn3:hover{
+    background-color:white;
+    color: var(--dark-color);
+    padding: 1rem 1.5rem;
+    border: none;
+    box-shadow: 0 0 0 1px var(--light-grey) inset;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.main-btn:hover{
+    background-color: transparent;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+}
+.main-btn2:hover{
+    background-color: var(--dark-color);
+    color: white;
+    padding: 1rem 1.5rem;
+    border: 1px sloid #9e9bbc ;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.main-title::after{
+    content: "";
+    width: 120px;
+    height: 2px;
+    background-color: var(--green-color);
+    position: absolute;
+    bottom:-20px;
+    left:50%; 
+    transform: translateX(-50%);
+}
+
+
+/*Start Colred Container*/
+.colored-container{
+    height: 20px;
+    background-color: var(--dark-color);
+}
+/*End Colored Container*/
+
+
+/*Start NavBar*/
+
+.navbar-nav .nav-link{
+    color: var(--dark-color);
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link:focus,
+.navbar-nav .nav-link:hover{
+    color: var(--light-grey);
+}
+
+.navbar-icon{
+    color: var(--light-grey);
+}
+
+/*End NavBar*/
+
+
+/*Start Ladning*/
+.landing{
+    background-image: url(../imgs/chemlabs-slider-1.jpg);
+    background-position: center;
+    background-size: cover;
+    padding-bottom: 120px;
+    
+}
+
+.landing::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1); 
+    z-index: 1;
+}
+
+.landing h1{
+    font-size: 60px;
+    font-weight: bold;
+}
+
+
+.landing .content{
+    position: relative;
+    z-index: 2;
+}
+/*End Ladning*/
+
+
+/*Start Cards*/
+.cards-part{
+    height: 300px;
+    position: relative;
+    background-color: var(--dark-color);
+    background-image: url(../imgs/section-cover.webp);
+    background-repeat: no-repeat;
+    background-position: right;
+    z-index: 1;
+}
+
+
+.cards-part .overlay-image{
+    position: absolute;
+    left: 75%;
+    top: 20%;
+    width: 30%;
+    opacity: 0.3;
+    z-index: 1;
+}
+
+.cards-part .cards-row{
+    max-width: 1320px;
+}
+
+.cards-part .card-1{
+    position: absolute;
+    top: 130px;
+    left: calc( (100% - 75% )/4);
+    height: 300px;
+    width: 25%;
+    background-color: white;
+    border-radius: 10px;
+    box-sizing: border-box;
+    box-shadow: 0px 5px 83px 0px rgba(13, 14, 67, 0.12);
+    padding: 40px;
+    margin: -10px;
+    transition: transform 0.3s ease;
+
+}
+
+.cards-part .card-1:hover{
+    transform: translateY(-10px);
+}
+
+.cards-part .card-2:hover{
+    transform: translateY(-10px);
+}
+
+.cards-part .card-3:hover{
+    transform: translateY(-10px);
+}
+
+
+.cards-part .card-2{
+    position: absolute;
+    top: 130px;
+    left:calc( (100% - 75% )/4 + 31.25% );      
+    height: 300px;
+    width: 25%;
+    background-color: white;
+    border-radius: 10px;
+    box-sizing: border-box;
+    box-shadow: 0px 5px 83px 0px rgba(13, 14, 67, 0.12);
+    padding: 40px;
+    transition: transform 0.3s ease;
+
+}
+
+.cards-part .card-3{
+    position: absolute;
+    top: 130px;
+    left:calc( (100% - 75% )/4 + 62.5% );      
+    height: 300px;
+    width: 25%;
+    background-color: white;
+    border-radius: 10px;
+    box-sizing: border-box;
+    box-shadow: 0px 5px 83px 0px rgba(13, 14, 67, 0.12);
+    padding: 40px;
+    margin: -10px;
+    transition: transform 0.3s ease;
+}
+
+.cards-part .card-body .card-title{
+    color: var(--dark-color);
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: -5px;
+    margin-bottom: 20px;
+}
+.cards-part .card-body .card-text{
+    font-size: 16px;
+    color: var(--dark-color);
+    line-height: 30px;
+    padding-bottom: 25px;
+}
+
+.cards-part .info{
+    position: absolute;
+    top: 70%;
+    left: 70%;
+    font-size: 200%;
+    color: #e9e9f0;
+}
+
+/*End Cards*/
+
+.between-sections{
+    position: relative;
+    height: 50%; /* Adjust the height of the visible portion of the image */
+    z-index: -1;
+}
+
+.between-sections img{
+    position: absolute;
+    width: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Start About*/
+.about-us{
+    padding-top: 15%;
+    padding-bottom: 10%;
+}
+
+.about-us .information{
+    padding-top: 5%;
+}
+.about-us .information p{
+    color: var(--light-grey);
+}
+.about-us .information h4{
+    color: var(--dark-color);
+    font-size: 40px;
+    font-weight: bold;
+}
+.about-us .information .more{
+    padding-top: 10%;
+}
+
+.about-us .info .custom-list {
+    list-style-type: none;
+    margin-left: -35px;
+}
+
+.about-us .info .custom-list li::before {
+    content: "\f560"; 
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+    color: var(--dark-grey);
+}
+
+.about-us .info .custom-list li {
+    color: var(--dark-grey);
+}
+
+.about-us .info .info-heading{
+    color: var(--dark-color);
+    font-size: 20px;
+}
+.about-us .info .p-info{
+    color: var(--dark-color);
+    font-size: 15px;
+}
+
+/*End About*/
+
+
+/*Start Booking*/
+.booking{
+    background-image: url(../imgs/Booking-BG.png);
+    background-size: cover;
+    height: 700px;
+}
+
+.booking .booking-info{
+    padding-top: 4%;
+    padding-left: 6%;
+    padding-right: 12%;
+}
+.booking .booking-info p{
+    color: white;
+
+}
+
+.booking .booking-info h3{
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.booking .booking-info h6{
+    color: white;
+}
+.booking .booking-info span{
+    background-color: transparent;
+    color: white;
+    border: none;
+    border-bottom: 3px solid white;
+}
+
+.booking .booking-info .booking-input{
+    background-color: transparent;
+    color: white;
+    border: none;
+    border-bottom: 3px solid white;
+}
+
+.booking .booking-info .submit-icon{
+    background-color: transparent;
+    border: none;
+    color: white;
+    border-bottom: 3px solid white;
+}
+
+.booking .booking-form{
+    padding-top: 2%;
+}
+.booking .booking-form .bkng{
+    background-color: white;
+    height: auto;
+    width: 350px;
+    padding: 5%;
+
+}
+
+.booking .form-bkng{
+    background-color: #f2f2f5;
+    border: none;
+    margin-bottom: 30px;
+    width: 90%;
+    height: 40px;
+    box-sizing: border-box;
+}
+
+
+/*Start Services*/
+.services{
+    padding: 0% 10% 15% 10%;
+}
+
+.services h2{
+    color: var(--dark-color);
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.services .box,
+.services .box-2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.services .box-2{
+    margin-top: 60px;
+}
+
+.services h4{
+    color: var(--dark-color);
+    font-size: 30px;
+    text-align: center;
+
+}
+
+.services p{
+    color: var(--dark-color);
+    text-align: center;
+}
+/*End Services*/
+
+/*Start App*/
+.appointment{
+    position: relative;
+    height: 900px;
+    background-image: url(../imgs/Appointment-BG.webp);
+    background-size: cover;
+}
+.appointment .app-icon{
+    font-size: 75px;
+    color: rgb(158, 155, 188, 0.5);
+    position: absolute;
+    left: 70%;
+    bottom: 15%;
+}
+.appointment .appointment-part{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 10%;
+    background-color: #c2c5dae0;
+}
+
+.appointment p{
+    color: var(--dark-color);
+}
+.appointment h2{
+    color: var(--dark-color);
+    padding-right:30%;
+    font-weight: bold ;
+    padding-bottom: 15PX;
+}
+.appointment .form-control{
+    background-color: transparent;
+    border: 1px solid var(--dark-color);
+}
+
+input[type="checkbox"] {
+    background-color: transparent;
+    border: 1px solid var(--dark-color);
+}
+
+.form-check-label{
+    font-size: 14px ;
+}
+
+.appointment .img-side img{
+    position: absolute;
+    left: 900px;
+    top: -100px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+}
+
+/*End App*/
+/*Start Team*/
+.team{
+    height: 1000px;
+    padding: 10%;
+}
+.team h2{
+    color: var(--dark-color);
+    font-size: 40px;
+    font-weight: bold;
+}
+.team p{
+    padding-bottom: 20px;
+}
+
+.team .team-card{
+    width: auto;
+    height: auto; 
+    border-radius: 20px;
+    padding-bottom: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);    
+}
+
+
+.team .image-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.team .image-card img{
+    border-radius: 30px;
+}
+
+
+.team .info-card h5{
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: var(--dark-color);
+
+}
+.team .info-card h3{
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: var(--dark-color);
+
+}
+.team .info-card p{
+    font-size: 15px;
+    margin-top: 50px;
+    margin-bottom: -10px;
+    color: var(--dark-color);
+
+}
+.team .info-card button{
+    background-color: var(--light-grey);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    margin-left: 37%;
+}
+
+/*End Team*/
+/*Start Footer*/
+
+.footer{
+    background-color: var(--dark-color);
+}
+
+.footer .logo img{
+    width: 50%;
+}
+
+.footer .about h5{
+    font-weight: bold;
+}
+.footer .about .about-text{
+    line-height: 40px;
+}
+
+.footer .links ul li{
+    font-size: 20px;
+}
+
+.footer .contact h5{
+    font-weight: bold;
+}
+
+/*End Footer*/
+
+
+/*Start Tablet CSS*/
+@media only screen and (max-width: 768px) {
+
+.main-btn2{
+    padding: 0.5rem 0.5rem;
+    font-weight: normal;
+}
+
+    .landing{
+    padding-bottom: 60px;
+}
+
+.landing .content h1{
+    font-size: 45px;
+}
+.landing::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1); 
+    z-index: 1;
+}
+
+.cards-part{
+    height: 200px;
+}
+
+.cards-part .card-1{
+    top: 80px;
+    width: 30%;
+    left: calc( (100% - 90% )/4);
+
+}
+.cards-part .card-2{
+    top: 80px;
+    width: 30%;
+    left:calc( (100% - 90% )/4 + 31.5% );      
+
+}
+
+.cards-part .card-3{
+    top: 80px;
+    width: 30%;
+    left:calc( (100% - 90% )/4 + 65% );      
+
+}
+
+.cards-part .card-body .card-title{
+    font-size: 18px;
+    margin-bottom: 0px;
+}
+.cards-part .card-body .card-text{
+    font-size: 12px;
+    line-height: 20px;
+    padding-bottom: 0px;
+}
+
+.cards-part .info{
+    top: 82%;
+    left: 78%;
+    font-size: 130%;
+}
+
+
+.about-us{
+    padding-top: 30%;
+}
+
+.about-us .information h4{
+    font-size: 25px;
+}
+.about-us .information .more{
+    padding-top: 0%;
+}
+
+.about-us .info .info-heading{
+    font-size: 18px;
+}
+.about-us .info .p-info{
+    font-size: 13px;
+}
+.booking{
+    height: 550px;
+}
+
+
+.booking .booking-input{
+    width: 50%;
+}
+
+.booking .booking-info{
+    padding-top: 4%;
+    padding-left: 5%;
+    padding-right: 0%;
+}
+.booking .booking-info p{
+    font-size: 10px;
+}
+
+.booking .booking-info h3{
+    font-size: 20px;
+}
+
+.booking .booking-info h6{
+    font-size: 12px;
+}
+.booking .booking-info span{
+    border-bottom: 2px solid white;
+}
+
+.booking .booking-info .booking-input{
+    border-bottom: 2px solid white;
+}
+
+.booking .booking-info .submit-icon{
+    border-bottom: 2px solid white;
+}
+
+.booking .booking-form{
+    padding-top: 2%;
+}
+.booking .booking-form .bkng{
+    width: 400px;
+    padding: 7%;
+
+}
+
+.booking .form-bkng{
+    margin-bottom: 10px;
+    height: 40px;
+}
+.services{
+    padding: 0% 5% 20% 5%;
+}
+
+.services h2{
+    font-size: 30px;
+}
+
+
+.services .box-2{
+    margin-top: 150px;
+}
+.services .box-3{
+    margin-top: -200px;
+}
+
+.services h4{
+    font-size: 25px;
+}
+
+.appointment .app-icon{
+    font-size: 50px;
+}
+
+.appointment h2{
+    padding-right:0%;
+    padding-bottom: 5px;
+}
+
+.appointment .img-side img{
+    width: 40%;
+    left: 430px;
+    top: -50px;
+}
+
+.team{
+    height: auto;
+    padding: 10%;
+}
+.team h2{
+    font-size: 30px;
+}
+
+.team .info-card h5{
+    font-size: 14px;
+}
+.team .info-card h3{
+    font-size: 20px;
+}
+
+.team .info-card p{
+    font-size: 12px;
+    margin-top: 40px;
+}
+
+.team .info-card button{
+    border-radius: 6px;
+    margin-left: 23%;
+}
+
+.footer .logo img{
+    width: 70%;
+}
+
+.footer .about h5{
+    font-size: 15px;
+}
+
+.footer .about .about-text{
+    font-size: 12px;
+    line-height: 20px;
+}
+
+.footer .links ul li{
+    font-size: 15px;
+}
+
+.footer .contact h5{
+    font-size: 15px;
+}
+.footer .contact p{
+    font-size: 12px;
+}
+.footer .info-footer h6{
+    font-size: 15px;
+}
+.footer .info-footer p{
+    font-size: 10px;
+}
+}
+/*End Tablet Mode*/
+/*Start Moile Version*/
+@media only screen and (max-width: 480px) {
+    
+    .navbar .navbar-brand{
+        width:80%;
+    }
+    .navbar .navbar-brand img{
+        width:90%;
+    }
+    
+    .landing{
+        padding-bottom: 40px;
+    }
+
+    .landing .content h1{
+        font-size: 30px;
+}
+
+.cards-part .cards-row{
+    max-width: 100%;
+}
+
+.cards-part .card-1{
+    top: 80px;
+    left: 20px;
+    height: 300px;
+    width: 88%;
+    margin: 0;
+
+}
+
+.cards-part .card-2{
+    top: 400px;
+    left:20px;
+    height: 300px;
+    width: 88%;
+
+}
+
+.cards-part .card-3{
+    top: 730px;
+    left:20px;      
+    height: 300px;
+    width: 88%;
+    margin: 0;
+
+}
+
+.about-us{
+    padding-top: 270%;
+    padding-bottom: 20%;
+}
+
+.about-us .information h4{
+    font-size: 30px;
+}
+.about-us .info .custom-list {
+    margin-left: 0;
+}
+
+.booking{
+    background-image: url(../imgs/Booking-BG.png);
+    background-size: cover;
+    height: 200px;
+}
+
+.booking .booking-info{
+    padding-top: 2%;
+    padding-left: 6%;
+    padding-right: 0%;
+}
+
+.booking .booking-info h3{
+    margin-top: -10px;
+    font-size: 18px;
+}
+
+.booking .booking-info h6{
+    font-size: 14px;
+    margin-top: -10px;
+}
+
+.booking .booking-info span{
+    border-bottom: 1px solid var(--dark-color);
+    color: var(--dark-color);
+}
+
+.booking .booking-info .booking-input{
+    border-bottom: 1px solid var(--dark-color);
+    width: 60%;
+}
+.booking .more img{
+    display: none;
+}
+
+.booking .booking-info .submit-icon{
+    border-bottom: 1px solid var(--dark-color);
+    color: var(--dark-color);
+}
+
+.booking .booking-form{
+    padding-top: 5%;
+}
+.booking .booking-form .bkng{
+    height: auto;
+    width: auto;
+    padding: 7%;
+
+}
+
+.booking .form-bkng{
+    margin-bottom: 40px;
+}
+
+
+.services{
+    padding-top: 180%;
+}
+
+.services h2{
+    font-size: 30px;
+}
+
+.services .box-2{
+    margin-top: 0px;
+}
+.services .box-3{
+    margin-top: 0px;
+}
+
+.services h4{
+    font-size: 25px;
+
+}
+
+.appointment{
+    margin-top: 30%;
+    height: 900px;
+}
+.appointment .app-icon{
+    display: none;
+}
+
+.appointment h2{
+    padding-right:0%;
+    padding-bottom: 15PX;
+}
+
+.appointment .img-side{
+    display: none;
+}
+
+.team{
+    height: auto;
+}
+.team h2{
+    font-size: 30px;
+}
+
+.team .team-card{
+    margin-bottom: 40px;
+}
+
+.team .info-card h5{
+    font-size: 16px;
+}
+
+.team .info-card h3{
+    font-size: 20px;
+}
+
+.team .info-card p{
+    font-size: 14px;
+}
+
+.team .info-card button{
+    margin-left: 30%;
+}
+
+.footer{
+    background-color: var(--dark-color);
+}
+
+.footer .logo img{
+    width: 100%;
+}
+
+.footer .about h5{
+    padding-top: 20%;
+    text-align: center;
+    font-size: 20px;
+}
+.footer .about .about-text{
+    line-height: 30px;
+    text-align: center;
+}
+
+.footer .links ul li{
+    padding-top: 10%;
+}
+
+.footer .contact h5{
+    padding-top: 20%;
+    text-align: center;
+    font-size: 20px;
+}
+.footer .contact p{
+    text-align: center;
+}
+
+}
+
+/*About us page CSS*/
+/*Start Banner*/
+.banner{
+    padding: 10% 5% 5% 5%;
+    background-image: url(../imgs/About-us-banner.png);
+    background-size: cover;
+    background-position: center;
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+    height: 400px;
+
+}
+
+.banner h2{
+    font-size: 60px;
+    letter-spacing: 4px;
+}
+
+.banner p{
+    padding: 0 23% 0 23%;
+}
+
+/*End Banner*/
+/*Start Statemtn*/
+.statements .statements-part{
+    padding: 5% 10% 10% 10%;
+    background-image: url(../imgs/about-image.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.statements .statements-part p{
+    color: var(--dark-grey);
+}
+.statements .statements-part .sth{
+    font-size: 50px;
+    text-align: center;
+    padding: 0 20% 5% 20%;
+    color: var(--dark-color);
+}
+
+.statements .statements-part .statement-info h4{
+    color: var(--dark-color);
+    text-align: center;
+}
+.statements .statements-part .statement-info p{
+    color: var(--dark-color);
+    text-align: center;
+}
+.statements .statements-part .box,
+.statements .statements-part .box-2{
+    display: flex;
+    justify-content: center;
+}
+/*End Statement*/
+/*Start About Lab*/
+.about-lab .about-lab-part{
+    position: relative;
+    background-color: #D7D0DF;
+    background-size: cover;
+    height: auto;
+    padding: 10%;
+}
+
+.about-lab.image-lab{
+    position: relative;
+}
+.about-lab .image-lab img{
+    position: absolute;
+    top: -12%;
+    left: 5%;
+}
+
+.about-lab .about-lab-part .info-lab{
+    padding-left: 3%;
+}
+
+.about-lab .info-lab h4{
+    color: var(--dark-color);
+    font-size: 45px;
+    padding-right: 15%;
+}
+
+.about-lab .info-lab .first-p{
+    color: white;
+}
+.about-lab .info-lab p{
+    color: var(--dark-color);
+}
+.about-lab .info-lab .number{
+    color: white;
+}
+.about-lab .info-lab h3{
+    color: var(--dark-color);
+    font-size: 25px;
+}
+
+.about-lab .info-lab button{
+    margin-top: 30px;
+}
+/*End About Lab*/
+/*Start Choose Us*/
+
+.choose-us{
+    padding: 3% 0 10% 15%;
+}
+
+.choose-us .choose-heading .choose-p{
+    color: var(--dark-grey);
+    padding-top: 20px;
+}
+
+.choose-us .choose-heading .choose-h4{
+    color: var(--dark-color);
+    font-size: 40px;
+    padding-top: 10px;
+    padding-bottom: 100px;
+}
+
+.choose-us .choose-list p{
+    color: var(--dark-color);
+    font-size: 13px;
+    padding-top: 10px;
+}
+
+.choose-us .choose-list h4{
+    color: var(--dark-color);
+    font-size: 25px;
+}
+/*End Choose Us*/
+/*Start Partners*/
+.partners-part{
+    padding: 3% 5% 2% 5%;
+    background-color: #F5EDF2;
+}
+
+.partners-part h3{
+    color: var(--dark-color);
+    font-size: 30px;
+}
+/*End Partners*/
+/*Extra part for 1024 px*/
+@media only screen and (max-width: 1024px) {
+    .about-lab .image-lab img{
+        top: -8%;
+        width: 45%;
+    }
+    .appointment .img-side img{
+        width: 40%;
+        left: 58%;
+        top: -50px;
+    }
+    .booking .booking-input{
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .banner3 .banner3-part p{
+        padding: 0 100px 0 100px!important;
+    }
+
+    .serv .offers .info-ser h4{
+        font-size: 20px!important;
+    }
+    .serv .offers .info-ser p{
+        font-size: 14px!important;
+    }
+    .serv .offers .info-ser {
+        height:210px!important;
+    }
+    .serv .offers h2{
+        font-size: 30px;
+    }
+    .before-sections2 img{
+        width: 50%!important;
+    }
+
+}
+/*End*/
+
+/*Start Tablet Version*/
+@media only screen and (max-width: 768px) {
+
+    .banner{
+        padding: 5% 5% 5% 5%;
+        height: auto;
+    }
+    
+    .banner h2{
+        font-size: 40px;
+    }
+    
+    .statements .statements-part{
+        padding: 5% 5% 5% 5%;
+    }
+    
+    .statements .statements-part .sth{
+        font-size: 30px;
+    }
+    
+    .about-lab .about-lab-part{
+        padding: 5%;
+    }
+    
+    .about-lab .image-lab img{
+        width: 40%;
+        top: -5%;
+    }
+    
+    .about-lab .info-lab h4{
+        font-size: 30px;
+        padding-right: 5%;
+    }
+    
+    .about-lab .info-lab h3{
+        color: var(--dark-color);
+        font-size: 20px;
+    }
+
+    .choose-us{
+        padding: 3% 0 5% 10%;
+    }
+    
+    .choose-us .choose-heading .choose-p{
+        padding-top: 25px;
+    }
+    
+    .choose-us .choose-heading .choose-h4{
+        font-size: 30px;
+        padding-bottom: 10px;
+    }    
+    .choose-us .choose-list h4{
+        font-size: 18px;
+    }    
+    .partners-part h3{
+        color: var(--dark-color);
+        font-size: 30px;
+    }
+    .partners-part img{
+        width: 100%;
+    }
+}
+/*End Tablet Version*/
+
+/*Start Mobile Version*/
+@media only screen and (max-width: 480px) {
+
+    .banner{
+        height: auto;
+        padding: 5%;
+    }
+    
+    .banner h2{
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .banner p{
+        padding: 0;
+        font-size: 10px;
+    }
+    
+    .statements .statements-part{
+        padding: 0 0 25% 0;
+    }
+    
+    .statements .statements-part .sth{
+        font-size: 25px;
+        padding: 0;
+        padding-bottom: 30px;
+    }
+
+    .statements .statements-part .boxes{
+        padding-top: 10%;
+    }
+
+    .statements .statements-part h4{
+        font-size: 18px;
+    }
+    .statements .statements-part p{
+        font-size: 14px;
+    }
+    .statements .statements-part img{
+        width: 60%;
+    }
+
+    .about-lab .about-lab-part{
+        padding: 5%;
+    }
+    
+    .about-lab .image-lab img{
+        width: 70%;
+        top: -2%;
+    }
+    
+    .about-lab .info-lab{
+        padding-top: 80%;
+    }
+
+    .about-lab .info-lab h4{
+        font-size: 25px;
+        padding-right: 0%;
+    }
+    
+    .about-lab .info-lab h3{
+        font-size: 18px;
+    }
+
+    .about-lab .info-lab p{
+        font-size: 14px;
+    }
+
+    .main-btn3{
+        padding: 0.5rem 1rem;
+    }
+
+    .choose-us{
+        padding: 3% 0% 7% 0%;
+    }
+    
+    .choose-us .choose-heading .choose-p{
+        padding-top: 18x;
+    }
+    
+    .choose-us .choose-heading .choose-h4{
+        font-size: 25px;
+    }    
+    .choose-us .choose-list h4{
+        font-size: 17px;
+        padding-bottom: 0;
+    }
+    .choose-us .choose-list p{
+        font-size: 12px;
+    }
+
+    .partners-part h3{
+        color: var(--dark-color);
+        font-size: 25px;
+    }
+    .partners-part img{
+        width: 100%;
+    }
+}
+/*End About CSS*/
+/*Start Contact CSS*/
+/*Start Banner*/
+.banner2{
+    padding: 10% 5% 5% 5%;
+    background-image: url(../imgs/CONTACT\ US.png);
+    background-size: cover;
+    background-position: bottom;
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+    height: 400px;
+}
+
+.banner2 .banner2-part h1{
+    font-size: 50px ;
+    color: white;
+}
+.banner2 .banner2-part p{
+    color: white;
+}
+/*End Banner*/
+/*Start Get in touch*/
+.get-in-touch .get-in-touch-part{
+    padding: 8%;
+}
+
+.get-in-touch .get-in-touch-part img{
+    box-shadow: 0px 5px 83px 0px rgba(13, 14, 67, 0.7);
+}
+.get-in-touch .information-tab{
+    padding-left: 5%;
+}
+
+.get-in-touch .information-tab .p1{ 
+    color: var(--dark-grey);
+    margin-top: 15px;
+}
+
+.get-in-touch .information-tab h3{ 
+    color: var(--dark-color);
+    font-size: 40px;
+    padding-right: 100px;
+    margin-bottom: 30px;
+}
+
+.get-in-touch .information-tab p{ 
+    color: var(--dark-color);
+    margin-bottom: 30px;
+}
+
+.get-in-touch .information-tab img{ 
+    box-shadow: none;
+    
+}
+.get-in-touch .information-tab h4{ 
+    font-size: 25px;
+    
+}
+/*End Get in touch*/
+/*Start Contact info*/
+.contact-info .contact-info-part{
+    padding: 0 10% 10% 10%;
+}
+
+.contact-info .contact-info-part .ctct-box{
+    border-right: 1px solid var(--dark-grey);
+    padding-right: 10%;
+    padding-left: 5%;
+
+}
+.contact-info .contact-info-part .ctct-box-1{
+    border: none;
+    padding-right: 10%;
+    padding-left: 5%;
+}
+.contact-info .contact-info-part img{
+    width: 20%;
+}
+.contact-info .contact-info-part h5{
+    color: var(--dark-color);
+    font-size: 22px;
+    margin-top: 15px;
+}
+
+.contact-info .contact-info-part p{
+    color: var(--dark-color);
+    font-size: 15px;
+}
+/*End Contact info*/
+/*Start Opening Hours*/
+.opening-hours .opening-hours-part{
+    padding: 3% 10% 5% 10%;
+    background-color: #F5EDF2;
+}
+
+.opening-hours .opening-hours-part h5{
+    color: var(--dark-color);
+    margin-bottom: 50px;
+
+}
+
+.opening-hours .opening-hours-part h6{
+    color: var(--dark-color);
+
+}
+
+/*End Opening Hours*/
+/*Start Form*/
+.form1 .form1-part{
+    padding: 3% 20% 3% 20%;
+}
+.form1 .form1-part p{
+    color: var(--dark-grey);
+}
+.form1 .form1-part h3{
+    color: var(--dark-color);
+    font-size: 40px;
+    padding-right: 200px;
+    padding-left: 200px;
+    margin-bottom: 50px;
+    
+}
+
+.form1 .form1-part form{
+    padding: 0 10% 0 10%;
+}
+
+.form1 .form1-part .form-control{
+    background-color: transparent;
+    border: 1px solid var(--dark-grey);
+    height: 50px;
+    border-radius: 0;
+    margin-bottom: 40px;
+}
+
+.form1 .form1-part .form-control-1{
+    background-color: transparent;
+    border: 1px solid var(--dark-grey);
+    width: 100%;
+    height: 150px;
+    border-radius: 0;
+    margin-bottom: 40px;
+}
+
+/*Start Tablet*/
+@media only screen and (max-width:768px) {
+    .banner2{
+        padding: 10%;
+        height: auto;
+    }
+    
+    .banner2 .banner2-part h1{
+        font-size: 40px ;
+        color: white;
+    }
+
+    .get-in-touch .get-in-touch-part{
+        padding: 10% 3% 3% 3%;
+    }
+    
+    .get-in-touch .information-tab .p1{ 
+        color: var(--dark-grey);
+        margin-top: 5px;
+    }
+    
+    .get-in-touch .information-tab h3{ 
+        font-size: 30px;
+        padding-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .get-in-touch .information-tab p{ 
+        margin-bottom: 30px;
+    }
+    
+    .get-in-touch .information-tab h4{ 
+        font-size: 20px;
+        
+    }
+
+    .contact-info .contact-info-part{
+        padding: 5%;
+    }
+    
+    .contact-info .contact-info-part .ctct-box{
+        padding-right: 0%;
+        padding-left: 3%;
+    
+    }
+    .contact-info .contact-info-part .ctct-box-1{
+        padding-right: 0%;
+        padding-left: 3%;
+    }
+    .contact-info .contact-info-part img{
+        width: 20%;
+    }
+    .contact-info .contact-info-part h5{
+        font-size: 18px;
+    }
+    
+    .contact-info .contact-info-part p{
+        font-size: 14px;
+    }
+    
+    .opening-hours .opening-hours-part{
+        padding: 3% 3% 5% 3%;
+    }
+    
+    .form1 .form1-part{
+        padding: 3% 5% 3% 5%;
+    }
+
+    .form1 .form1-part h3{
+        font-size: 30px;
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+    
+    
+    .form1 .form1-part .form-control{
+        height: 40px;
+    }
+    
+    
+}
+
+@media only screen and (max-width: 480px) {
+
+    .banner2{
+        padding: 10%;
+        height: auto;
+    }
+    
+    .banner2 .banner2-part h1{
+        font-size: 25px ;
+    }
+
+    .banner2.banner2-part p{
+        font-size: 18px;
+    }
+    
+    .get-in-touch .information-tab .p1{ 
+        margin-top: 35px;
+        margin-bottom: 10px;
+    }
+    
+    .get-in-touch .information-tab h3{ 
+        font-size: 25px;
+        padding-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .get-in-touch .information-tab p{ 
+        margin-bottom: 30px;
+    }
+    
+    .get-in-touch .information-tab h4{ 
+        font-size: 18px;
+        
+    }
+
+    .contact-info .contact-info-part{
+        padding: 7%;
+    }
+    
+    .contact-info .contact-info-part .ctct-box{
+        padding-right: 0%;
+        padding-left: 3%;
+        border-bottom: 1px solid var(--dark-grey);
+        border-right: none;
+    
+    }
+    .contact-info .contact-info-part .ctct-box-1{
+        padding-right: 0%;
+        padding-left: 3%;
+    }
+    .contact-info .contact-info-part img{
+        width: 15%;
+    }
+    .contact-info .contact-info-part h5{
+        font-size: 18px;
+    }
+    
+    .contact-info .contact-info-part p{
+        font-size: 14px;
+    }
+    
+    .opening-hours .opening-hours-part{
+        padding: 3% 3% 5% 3%;
+    }
+    
+    .form1 .form1-part{
+        padding: 3% 5% 3% 5%;
+    }
+
+    .form1 .form1-part h3{
+        font-size: 30px;
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+    
+    
+    .form1 .form1-part .form-control{
+        height: 40px;
+    }
+
+    .opening-hours .opening-hours-part{
+        padding: 3% 3% 5% 3%;
+    }
+
+    .opening-hours .opening-hours-part h6{
+        margin-bottom: 30px;
+    }
+
+    .map-part .map-part2 .map{
+        width: 100%;
+        height: 400px;
+    }
+
+    .form1 .form1-part{
+        padding: 3%;
+    }
+
+    .form1 .form1-part h3{
+        font-size: 25px;
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+    
+    
+    .form1 .form1-part .form-control{
+        height: 30px;
+    }
+
+    .form-btn2{
+        width: 100%;
+    }
+    
+}
+
+/*Start Services CSS*/
+/*Start Banner*/
+.banner3{
+    padding: 10% 5% 5% 5%;
+    background-image: url(../imgs/Services\ Banner.png);
+    background-size: cover;
+    background-position: top;
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+    height: auto;
+}
+
+.banner3 .banner3-part h1{
+    font-size: 50px ;
+    color: white;
+}
+.banner3 .banner3-part p{
+    color: white;
+    padding: 0 500px 0 500px;
+}
+/*End Banner*/
+/*Start what we offer*/
+.serv .offers{
+    padding: 10% 10% 10% 10%;
+}
+
+.serv .offers .info-ser{
+    padding: 8%;
+    box-shadow: 10px 10px 20px 0 rgba(0, 0, 0, 0.3);
+    height: 230px;
+    background-color: white;
+}
+
+.serv .offers .box-serv{
+    box-shadow: 10px 10px 20px 0 rgba(0, 0, 0, 0.3);
+}
+
+.serv .offers .serv-p{
+    color: var(--dark-grey);
+}
+.serv .offers h2{
+    color: var(--dark-color);
+    font-size: 40px;
+    margin-bottom: 60px;
+}
+
+.serv .offers .info-ser h4{
+    color: var(--dark-color);
+    font-size: 25px;
+}
+
+.serv .offers .info-ser p{
+    color: var(--dark-color);
+    font-size: 16px;
+    margin-top: 20px;
+}
+/*End Offers*/
+/*Extra BG*/
+.after-sections{
+    position: relative;
+    height: 50%; /* Adjust the height of the visible portion of the image */
+    z-index: -1;
+}
+
+.after-sections img{
+    position: absolute;
+    width: 50%;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.before-sections{
+    position: relative;
+    height: 100%; /* Adjust the height of the visible portion of the image */
+    z-index: -1;
+}
+
+.before-sections img{
+    position: absolute;
+    width: 30%;
+    left: 70%;
+    top: -90px;
+}
+/*End  qExtra BG*/
+
+/*Start Tablet Version*/
+@media only screen and (max-width: 768px) {
+    .banner3{
+        padding: 5%;
+    }
+
+    .serv .offers h2{
+        font-size: 30px;
+    }
+    .serv .offers .info-ser h4{
+        font-size: 18px!important;
+    }
+    .serv .offers .info-ser p{
+        font-size: 14px!important;
+    }
+    .serv .offers .info-ser{
+        height: 250px!important;
+    }
+}
+/*End Tablet Version*/
+/*Start Mobile*/
+@media only screen and (max-width: 480px) {
+    .banner3{
+        padding: 3%!important;
+    }
+    .banner3 .banner3-part h1{
+        font-size: 25px;
+    }
+    .banner3 .banner3-part p{
+        font-size: 15px;
+        padding: 2%!important;
+    }
+
+    .serv .offers .info-ser{
+        height: auto!important;
+        margin-bottom: 10px;
+    }
+    .col-12{
+        margin-bottom: 30px;
+    }
+
+}
+@media only screen and (max-width: 375px) {
+    .banner3{
+        padding: 5%!important;
+    }
+}
+/*End Mobile*/
+
+/*Start Gallery CSS*/
+.banner4{
+        padding: 10% 5% 15% 5%;
+        background-image: url(../imgs/gellerybanner.png);
+        background-size: cover;
+        background-position: top;
+        clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+        height: auto;
+}
+
+.banner4 h1{
+    font-size: 60px;
+    color: white;
+}
+
+.before-sections2{
+    position: relative;
+    height: 100%; /* Adjust the height of the visible portion of the image */
+    z-index: -1;
+}
+
+.before-sections2 img{
+    position: absolute;
+    width: 30%;
+    left: 0%;
+    top: -100px;
+}
+.gallery .gallery-part{
+    padding: 5% 5% 10% 5%;
+}
+
+
+.gallery-btn{
+    background-color: var(--dark-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+
+}
+.gallery .gallery-part .boxg{
+    height: 300px;
+    width: 32%;
+    margin: 0 5px 0 5px;
+    box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.5);
+    padding: 5%;
+    position: relative;
+
+}
+
+.gallery .gallery-part .boxg1{
+    background-image: url(../imgs/gallery1.png);
+    background-size: cover;
+}
+.gallery .gallery-part .boxg2{
+    background-image: url(../imgs/gallery2.png);
+    background-size: cover;
+}
+.gallery .gallery-part .boxg3{
+    background-image: url(../imgs/gallery3.png);
+    background-size: cover;
+}
+.gallery .gallery-part .boxg4{
+    background-image: url(../imgs/gallery4.png);
+    background-size: cover;
+}
+.gallery .gallery-part .boxg5{
+    background-image: url(../imgs/gallery5.png);
+    background-size: cover;
+}
+.gallery .gallery-part .boxg6{
+    background-image: url(../imgs/gallery6.png);
+    background-size: cover;
+}
+
+
+.gallery .gallery-part .overlay h3{
+    color: white;
+    font-size: 20px;
+
+}
+
+.gallery .gallery-part .overlay .centered-button{
+    display: flex;
+    justify-content: center;
+}
+
+.gallery .gallery-part .overlay{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+/*End Gallery CSS*/
+/*Tablet version*/
+@media only screen and (max-width: 768px) {
+    .before-sections2 img{
+        width: 60%;
+    }
+    .gallery .gallery-part{
+        padding: 3%;
+    }
+    
+    .gallery .gallery-part .boxg{
+        width: 30%;
+    
+    }
+
+}
+/*Mobile version*/
+@media only screen and (max-width: 480px) {
+    .banner4 h1{
+        font-size: 30px;
+    }
+
+    .before-sections2 img{
+        display: none;
+    }
+    .gallery .gallery-part{
+        padding: 3%;
+    }
+    
+    
+    .gallery-btn{
+        background-color: var(--dark-color);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    
+    }
+    .gallery .gallery-part .boxg{
+        width: 100%;
+        margin: 10px 5px 10px 5px;    
+    }
+
+}
