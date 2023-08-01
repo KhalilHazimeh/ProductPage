@@ -3,13 +3,6 @@ include("variables.php");
 session_start();
 $loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'];
 
-if (isset($_GET['logout'])) {
-    session_unset();
-    session_destroy();
-    header("Location: http://localhost/ProductPage/product.php?id=".$id);
-    exit();
-}
-
 ?>
 
 <!DOCTYPE html>
