@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['cart_items'][$_POST['product_id']] = $product;
     
 
-    header('Location: http://localhost/ProductPage/product.php?id='.$id);
+    header('Location: http://localhost/ProductPage/ProductPage/product.php?id='.$id);
     exit();
     }
 
