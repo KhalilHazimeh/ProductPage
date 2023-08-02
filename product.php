@@ -41,7 +41,7 @@ include("head.php");
                             <li>
                                 <a  title="Login" data-bs-toggle="modal" data-bs-target="#exampleModal"  href="<?php echo $loggedIn ? "home.php?logout=1" : "login.php"; ?>">
                                     <i class="fa-solid fa-right-to-bracket"style="color: #68367f; margin-right: 10px;"></i>
-                                    <?php echo $loggedIn ? "My Account (Logout)" : "Login"; ?>
+                                    <?php echo $loggedIn ? "My Account" : "Login"; ?>
                                 </a>
                                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -52,6 +52,11 @@ include("head.php");
                                             </div>
                                             <div class="modal-body">
                                                 <form action= "login.php" method="post" >
+                                                <?php
+                                                    if (isset($_GET['status']) && $_GET['status'] === 'failed') {
+                                                        echo '<p style="color: red;">Incorrect username or password.</p>';
+                                                    }
+                                                ?>
                                                     <div class="row">
                                                         <div class="col-lg-12" style="padding-bottom: 20px;">
                                                             <div class="row">

@@ -35,7 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: http://localhost/ProductPage/ProductPage/product.php?id=".$id);
         exit();
     } else {
-        echo "Invalid username or password.";
+        header("Location: http://localhost/ProductPage/ProductPage/product.php?status=failed");
+        exit();
     }
 }
 $conn->close();
