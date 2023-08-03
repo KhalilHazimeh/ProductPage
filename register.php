@@ -30,6 +30,7 @@ if ($conn->connect_error) {
         $stmt=null;
         header("Location: http://localhost/ProductPage/ProductPage/product.php?id=".$id);
         exit();
+        $_SESSION['loggedin'] = true;
     }
 $conn->close();
 ?>

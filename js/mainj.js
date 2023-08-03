@@ -144,28 +144,39 @@ $('.flavor').click(function(){
 
 
 $(document).ready(function() {
-    $("#addToCartButton").click(function() {
-        $("#addToCartButton").hide();
-        $("#loading").show();
-
-        $.ajax({
-            url: 'http://localhost/ProductPage/ProductPage/store_product.php',
-            type: 'POST',
-            data: $("#addToCartForm").serialize(),
-            success: function(response) {
-            $("#loading").hide();
-            $("#addToCartButton").show();
-            showAlert('Product added to cart successfully!');
-        },
-        error: function() {
-            $("#loading").hide();
-            $("#addToCartButton").show();
-            showAlert('Failed to add product to cart.');
+    $("#addToCartForm").submit(function(event) {
+    event.preventDefault();
+    $("#addToCartButton").hide();
+    $("#loading").show();
+    $.ajax({
+        url: 'store_product.php',
+        type: 'POST',
+        data: $("#addToCartForm").serialize(),
+        dataType: 'json', 
+    })
+    .done(function(response) {
+        $("#loading").hide();
+        $("#addToCartButton").show();
+        if (response.status === 'success') {
+            showSuccessMessage('Product added to cart successfully!');
+        } else {
+            showFailureMessage('Failed to add product to cart.');
         }
+    })
+    .fail(function() {
+        $("#loading").hide();
+        $("#addToCartButton").show();
+        showFailureMessage('Failed to add product to cart.');
         });
     });
-    function showAlert(message) {
-        alert(message);
+
+    function showSuccessMessage(message) {
+        $("#message").html('<div class="success">' + message + '</div>');
+        $("#message .success").fadeOut(3000);
+    }
+    function showFailureMessage(message) {
+        $("#message").html('<div class="failure">' + message + '</div>');
+        $("#message .failure").fadeOut(3000);
     }
 });
 
@@ -180,5 +191,4 @@ var openNavBtn = document.getElementById('openNavBtn');
         var bootstrapOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
         bootstrapOffcanvas.show();
 
-        displaySelectedItems();
     });

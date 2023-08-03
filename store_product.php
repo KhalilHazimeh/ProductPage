@@ -1,10 +1,8 @@
 <?php
 include ("variables.php");
 
-// Start or resume the session
 session_start();
 
-//$allCartItems = $_SESSION['cart_items'] ?? [];
 if(!isset($_SESSION['cart_items'])) {
     $_SESSION['cart_items'] = [];
 }
@@ -20,10 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     $_SESSION['cart_items'][$_POST['product_id']] = $product;
-    
-
-    header('Location: http://localhost/ProductPage/ProductPage/product.php?id='.$id);
-    exit();
+    $response = array('status' => 'success', 'message' => 'Product added to cart successfully!');
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
     }
 
 ?>

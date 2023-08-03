@@ -357,12 +357,12 @@ include("head.php");
                                     </button>
                                 </div>
                                 <div>
-                                <button id ="addToCartButton" type="submit" class="btn btn-primary btn-add-to-cart" onclick= "addToCart()">
+                                <button id ="addToCartButton" class="btn btn-primary btn-add-to-cart">
                                     <i class="fa-solid fa-cart-shopping"></i>
                                     Add to Cart
                                 </button>
                                 <div class="btn btn-primary btn-add-to-cart" id="loading" style="display: none;">Loading...</div>
-                                <p id="message"></p>
+                                <div id="message"></div>
                                 </div>
                                 <div>
                                 <button id="openNavBtn" data-toggle="offcanvas" data-target="#myNav" class="btn btn-primary btn-checkout">
