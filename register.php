@@ -19,7 +19,7 @@ if ($conn->connect_error) {
     $result = $conn->query($sql);
     $count = $result->fetch_row()[0];
     if ($count>0){
-        header("Location: http://localhost/ProductPage/ProductPage/product.php?register=failed");
+        header("Location: http://localhost/ProductPage/ProductPage/product.php?".$id."?register=failed");
         exit();
     }
     else{

@@ -143,6 +143,36 @@ $('.flavor').click(function(){
 }*/
 
 
+$(document).ready(function() {
+    $("#addToCartButton").click(function() {
+        $("#addToCartButton").hide();
+        $("#loading").show();
+
+        $.ajax({
+            url: 'http://localhost/ProductPage/ProductPage/store_product.php',
+            type: 'POST',
+            data: $("#addToCartForm").serialize(),
+            success: function(response) {
+            $("#loading").hide();
+            $("#addToCartButton").show();
+            showAlert('Product added to cart successfully!');
+        },
+        error: function() {
+            $("#loading").hide();
+            $("#addToCartButton").show();
+            showAlert('Failed to add product to cart.');
+        }
+        });
+    });
+    function showAlert(message) {
+        alert(message);
+    }
+});
+
+
+
+
+
 var myOffcanvas = document.getElementById('myNav');
 var openNavBtn = document.getElementById('openNavBtn');
 

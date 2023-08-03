@@ -222,13 +222,12 @@ include("head.php");
             </div>        
     </section>
     <section class="info">
-        <form method = "post" action= "store_product.php">
+        <form id= "addToCartForm">
             <input type="hidden" name="product_id" value= "<?php echo $id ?>">
             <input type="hidden" name="price" value="<?php echo $productPrice ?>">
             <input type="hidden" name="quantity" value="1">
             <input type="hidden" name="size" value= "<?php echo $productSize1 ?>">
             <input type="hidden" name="flavor" value= "<?php echo $productFlavor1 ?>">
-            
         <div class="info">
             <div class="row">
                 <div class="col-lg-4 image-box">
@@ -358,10 +357,12 @@ include("head.php");
                                     </button>
                                 </div>
                                 <div>
-                                <button type="submit" class="btn btn-primary btn-add-to-cart">
+                                <button id ="addToCartButton" type="submit" class="btn btn-primary btn-add-to-cart" onclick= "addToCart()">
                                     <i class="fa-solid fa-cart-shopping"></i>
                                     Add to Cart
                                 </button>
+                                <div class="btn btn-primary btn-add-to-cart" id="loading" style="display: none;">Loading...</div>
+                                <p id="message"></p>
                                 </div>
                                 <div>
                                 <button id="openNavBtn" data-toggle="offcanvas" data-target="#myNav" class="btn btn-primary btn-checkout">
