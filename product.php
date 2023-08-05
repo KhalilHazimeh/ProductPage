@@ -2,8 +2,9 @@
 include("variables.php");
 session_start();
 $loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'];
-
 ?>
+<?php include "get-product-info.php"; ?>
+<?php if (isset($product)): ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -231,11 +232,11 @@ include("head.php");
         <div class="info">
             <div class="row">
                 <div class="col-lg-4 image-box">
-                    <img class=" product-img img-fluid" src="images/nwGM1Rzm9Q8rtxuSEi0buHcjfBmhz077VyzROqoC.png" alt="">
+                    <img class=" product-img img-fluid" src="<?php echo $product['image']?>" alt="">
                 </div>
                 <div class="col-lg-5 details">
                     <div class="details-info">
-                        <h3 id="product-title"><?php echo $productName?></h3>
+                        <h3 id="product-title"><?php echo $product['name']?></h3>
                         <span class="free-delivery"><i class="las la-truck"></i>
                             Free Delivery On Orders Above AED&nbsp;80
                         </span>
@@ -342,8 +343,8 @@ include("head.php");
                     <aside class="right-sidebar for-product-show">
                         <div class="details-info-middle right-product-details">
                             <div class="product-price d-none d-md-block">
-                                <span class="pricee">AED <span id="originalPrice"><?php echo $productPrice ?></span> </span>
-                                <span class="previous-price">AED <?php echo $productOldPrice ?></span>
+                                <span class="pricee">AED <span id="originalPrice"><?php echo $product['price'] ?></span> </span>
+                                <span class="previous-price">AED <?php echo $product['old-price'] ?></span>
                             </div>
                             <div class="details-info-middle-actions">
                                 <div class="number-picker">
@@ -396,5 +397,6 @@ include("head.php");
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/all.min.js"></script>
     <script src="js/mainj.js?v=<?php echo time()?>"></script>
+<?php endif; ?>
 </body>
 </html>

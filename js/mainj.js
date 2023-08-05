@@ -151,7 +151,7 @@ $(document).ready(function() {
     $.ajax({
         url: 'store_product.php',
         type: 'POST',
-        data: $("#addToCartForm").serialize(),
+        data: $(this).serialize(),
         dataType: 'json', 
     })
     .done(function(response) {

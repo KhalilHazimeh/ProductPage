@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 02, 2023 at 06:14 PM
+-- Generation Time: Aug 05, 2023 at 11:50 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `logindb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `price` int(11) NOT NULL,
+  `old-price` int(11) NOT NULL,
+  `image` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `name`, `price`, `old-price`, `image`) VALUES
+(1, 'Laperva Iso Triple ZERO Next Generation', 325, 372, 'images/nwGM1Rzm9Q8rtxuSEi0buHcjfBmhz077VyzROqoC.png'),
+(2, 'Laperva Iso Triple ONE Next Generation', 297, 325, 'images/BsPIf08zG9TFDvJkgT75QEUHpDiq1CGxMxdv1ujM.jpg'),
+(3, 'Laperva Iso Triple TWO Next Generation', 271, 300, 'images/cbQSvFiAo9zMDGSZVZaeVBXnufColeuYiRzMtwce.jpg');
 
 -- --------------------------------------------------------
 
@@ -44,6 +67,12 @@ INSERT INTO `users` (`id`, `username`, `pwd`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
