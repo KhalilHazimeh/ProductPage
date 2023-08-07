@@ -1,5 +1,4 @@
 <?php
-include ("variables.php");
 
 session_start();
 
@@ -11,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $product = array(
     'Product_Id' => $_POST['product_id'],
+    'Product_Name' => $_POST['name'],
     'Product_Price' => $_POST['price'],
     'Product_Quantity' => $_POST['quantity'],
     'Product_Size' => $_POST['size'],

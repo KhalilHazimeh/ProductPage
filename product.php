@@ -1,16 +1,16 @@
 <?php
-include("variables.php");
 session_start();
+include("head.php");
+include("DB_connection.php");
 $loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'];
 ?>
 <?php include "get-product-info.php"; ?>
-<?php if (isset($product)): ?>
-
+<?php include 'sizes.php';?>
+<?php include 'flavor.php';?>
+<?php if ((isset($product)) && (isset($brand))): ?>
 <!DOCTYPE html>
 <html lang="en">
 <?php 
-include("variables.php");
-include("head.php");
 ?>
 <body>
     <section class="free_shipping_alert">
@@ -225,10 +225,11 @@ include("head.php");
     <section class="info">
         <form id= "addToCartForm">
             <input type="hidden" name="product_id" value= "<?php echo $id ?>">
-            <input type="hidden" name="price" value="<?php echo $productPrice ?>">
+            <input type="hidden" name="name" value= "<?php echo $product['name'] ?>">
+            <input type="hidden" name="price" value="<?php echo $product['price'] ?>">
             <input type="hidden" name="quantity" value="1">
-            <input type="hidden" name="size" value= "<?php echo $productSize1 ?>">
-            <input type="hidden" name="flavor" value= "<?php echo $productFlavor1 ?>">
+            <input type="hidden" name="size" value= "<?php foreach($sizes_array as $size){echo $size;break;} ?>">
+            <input type="hidden" name="flavor" value= "<?php foreach($flavors_array as $flavor){echo $flavor;break;} ?>">
         <div class="info">
             <div class="row">
                 <div class="col-lg-4 image-box">
@@ -236,10 +237,11 @@ include("head.php");
                 </div>
                 <div class="col-lg-5 details">
                     <div class="details-info">
-                        <h3 id="product-title"><?php echo $product['name']?></h3>
+                        <h3 id="product-title"><?php echo $product['name'] ?></h3>
                         <span class="free-delivery"><i class="las la-truck"></i>
                             Free Delivery On Orders Above AED&nbsp;80
                         </span>
+                        <p id="brand-title">Brand: <?php echo $brand;?></p>
                     </div>
                     <div class="details-info-middle">
                         <div class="product-variants">
@@ -250,17 +252,18 @@ include("head.php");
                                     </label>
                                 </div> 
                                 <div class="col-lg-14">
-                                    <ul id="sizeList" class="list-inline form-custom-radio custom-selection">
-                                        <li id="li1" class="active option">
-                                            <span href="#" class="option-label"><?php echo $productSize1 ?></span>
-                                        </li>
-                                        <li id="li2" class="option">
-                                            <span href="#" class="option-label"><?php echo $productSize2 ?></span>
-                                        </li>
-                                        <li id="li3" class="option">
-                                            <span href="#" class="option-label"><?php echo $productSize3 ?></span>
-                                        </li>
-                                    </ul>
+                                    <?php
+                                        echo '<ul id="sizeList" class="list-inline form-custom-radio custom-selection">';
+                                        $firstSize = true;
+                                        foreach ($sizes_array as $id=>$size) {
+                                            $activeClass = $firstSize ? 'active' : '';
+                                            $firstSize = false;
+                                            echo '<li id="li_size_'.$id.'" data-id="'.$id.'" class="option '.$activeClass.'">';
+                                            echo '<span href="#" class="option-label">' . $size . ' LB </span>';
+                                            echo '</li>';
+                                        }
+                                        echo '</ul>';                                            
+                                    ?>
                                 </div>
                             </div>
                         </div> 
@@ -272,26 +275,19 @@ include("head.php");
                                     </label>
                                 </div> 
                                 <div class="col-lg-14">
-                                    <ul id="flavorList" class="list-inline form-custom-radio custom-selection">
-                                        <li id="f1" class="flavor active">
-                                            <span href="#" class="option-label"><?php echo $productFlavor1 ?></span>
-                                        </li>
-                                        <li id="f2" class="flavor">
-                                            <span href="#" class="option-label"><?php echo $productFlavor2 ?></span>
-                                        </li>
-                                        <li id="f3" class="flavor">
-                                            <span href="#" class="option-label"><?php echo $productFlavor3 ?></span>
-                                        </li>
-                                        <li id="f4" class="flavor">
-                                            <span href="#" class="option-label"><?php echo $productFlavor4 ?></span>
-                                        </li>
-                                        <li id="f5" class="flavor">
-                                            <span href="#" class="option-label"><?php echo $productFlavor5 ?></span>
-                                        </li>
-                                        <li id="f6" class="flavor">
-                                            <span href="#" class="option-label"><?php echo $productFlavor6 ?></span>
-                                        </li>
-                                    </ul>
+                                <?php
+                                    echo '<ul id="flavorList" class="flavorList list-inline form-custom-radio custom-selection">';
+                                    $firstFlavor=true;
+                                        foreach ($flavors_array as $idWithCommaSeparator =>$flavor) {
+                                            $activeClass = $firstFlavor ? 'active' : '';
+                                            $firstFlavor = false;
+                                            $arrayIds = explode(":", $idWithCommaSeparator); 
+                                            echo '<li id="li_flavor_'.$arrayIds[0].'" data-size="'.$arrayIds[1].'" class="flavor '.$activeClass.'">';
+                                            echo '<span href="#" class="option-label">' . $flavor . '</span>';
+                                            echo '</li>';
+                                        }
+                                        echo '</ul>';                                            
+                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -331,9 +327,17 @@ include("head.php");
                             </li> 
                             <li>
                                 <label>Categories:</label> 
-                                <a title="Proteins" href="https://drnutrition.com/en-ae/categories/proteins">Proteins</a>,
-                                <a title="Whey Protein Isolate" href="https://drnutrition.com/en-ae/categories/whey-protein-isolate">Whey Protein Isolate</a>,
-                                <a title="Sports Nutrition" href="https://drnutrition.com/en-ae/categories/sports-nutrition">Sports Nutrition</a>
+                                <div>
+                                    <?php
+                                        echo '<ul class="list-inline form-custom-radio custom-selection">';
+                                        foreach ($categories_array as $category) {
+                                            echo '<li class="">';
+                                            echo '<span href="#" class="option-label">' . $category . ' </span>';
+                                            echo '</li>';
+                                        }
+                                        echo '</ul>';                                            
+                                    ?>
+                                    </div>
                             </li>
                         </ul>
                     </div>
@@ -357,16 +361,17 @@ include("head.php");
                                         <i class="fa-solid fa-plus"></i>
                                     </button>
                                 </div>
-                                <div>
-                                <button id ="addToCartButton" class="btn btn-primary btn-add-to-cart">
+                            <div>
+                                <button id ="addToCartButton" class="btn-add-to-cart">
                                     <i class="fa-solid fa-cart-shopping"></i>
                                     Add to Cart
                                 </button>
-                                <div class="btn btn-primary btn-add-to-cart" id="loading" style="display: none;">Loading...</div>
+                                <div class="btn-add-to-cart" id="loading" style="display: none;">Loading...</div>
                                 <div id="message"></div>
-                                </div>
-                                <div>
-                                <button id="openNavBtn" data-toggle="offcanvas" data-target="#myNav" class="btn btn-primary btn-checkout">
+                            </div>
+                            </div>
+                            <div>
+                                <button id="openNavBtn" data-toggle="offcanvas" data-target="#myNav" class="btn-checkout">
                                     <i class="fa-solid fa-money-check-dollar"></i>   
                                     Continue to Checkout
                                 </button>
@@ -377,19 +382,32 @@ include("head.php");
                                     </div>
                                     <div id="offcanvas-body" class="offcanvas-body">
                                         <div>
-                                            <p class="quan"></p>
-                                            <p class="size"></p>
-                                            <p class="flav"></p>
+                                            <?php
+                                                if(isset($_SESSION['cart_items']) && is_array($_SESSION['cart_items'])) {
+                                                $cartItems = $_SESSION['cart_items'];
+                                                foreach ($cartItems as $id => $item) {
+                                                    echo '<div class="item" id="item-'.$id.'">';
+                                                    echo '<p>Name: ' . $item['Product_Name'] . '</p>';
+                                                    echo '<p>Size: ' . $item['Product_Size'] . 'LB</p>';
+                                                    echo '<p>Quantity: ' . $item['Product_Quantity'] . '</p>';
+                                                    echo '<p>Flavor: ' . $item['Product_Flavor'] . '</p>';
+                                                    echo '<p>Price: $' . $item['Product_Price'] . '</p>';
+                                                    echo '<button class="btn-add-to-cart remove-item " data-id="'.$id.'">Remove Item</button> ';
+                                                    echo '<hr>'; 
+                                                    echo '</div>';
+                                                }
+                                                } else {
+                                                    echo '<p>Your cart is empty.</p>';
+                                                }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            </div>
-                            </div>
                         </div>
-                    </aside>
-                </div>
+                </aside>
             </div>
+        </div>
         </div>
     </form>
     </section>

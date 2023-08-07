@@ -40,19 +40,40 @@ function updatePrice(counter){
     $("input[name=price]").val(newPrice)
 }
 
+$(document).ready(function() {
+    var activeSizeDataId = $("#sizeList li.active").attr("data-id");
+    $(".flavor").each(function() {
+        var flavorDataSize = $(this).attr("data-size");
+        if (flavorDataSize === activeSizeDataId) {
+            $(this).removeClass("hidden");
+        } else {
+            $(this).addClass("hidden");
+        }
+    });
+});
 
 
 //Change the active state on click
 $('.option').click(function(){
-    $('.option').removeClass("active")
-    $(this).addClass("active")
-    $("input[name=size]").val($(this).text())
-} )
-
+    $('.option').removeClass("active");
+    $(this).addClass("active");
+    var activeSizeDataId = $("#sizeList li.active").attr("data-id");
+    $(".flavor").each(function() {
+        var flavorDataSize = $(this).attr("data-size");
+        if (flavorDataSize === activeSizeDataId) {
+            $(this).removeClass("hidden");
+            //$(".flavor").addClass("active");
+        } else {
+            $(this).addClass("hidden");
+            
+        }
+    });
+    $("input[name=size]").val($(this).text());
+});
 
 //change flavors ready state
 $('.flavor').click(function(){
-    $('.flavor').removeClass("active")
+    $('.flavor').removeClass("active");
     $(this).addClass("active")
     $("input[name=flavor]").val($(this).text())
 } )
@@ -181,7 +202,20 @@ $(document).ready(function() {
 });
 
 
-
+$(document).ready(function() {
+    $('#offcanvas-body').on('click', '.remove-item', function(data) {
+        var item_id = $(this).data('id');
+        console.log(data); // Log the response
+        
+        $.post('remove_item.php', { item_id: item_id }, function(data) {
+            console.log(data); // Log the response
+            if (data === 'success') {
+                $('#item-' + item_id).remove();
+            }
+        });
+    });
+});
+    
 
 
 var myOffcanvas = document.getElementById('myNav');
@@ -190,5 +224,4 @@ var openNavBtn = document.getElementById('openNavBtn');
     openNavBtn.addEventListener('click', function () {
         var bootstrapOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
         bootstrapOffcanvas.show();
-
     });

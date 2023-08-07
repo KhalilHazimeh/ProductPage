@@ -1,19 +1,10 @@
 <?php
-include("variables.php");
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "logindb";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
+include("DB_connection.php");
 $userName = $_POST['username'];
 $pwd = $_POST['password'];
 
+$id = isset($_GET['product_id']) ? $_GET['product_id'] : 1;
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
     $sql = "SELECT COUNT(*) FROM users WHERE username = '$userName'";
     $result = $conn->query($sql);
