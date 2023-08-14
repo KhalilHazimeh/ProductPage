@@ -202,26 +202,55 @@ $(document).ready(function() {
 });
 
 
+var myOffcanvas = $('#myNav');
+var openNavBtn = $('#openNavBtn');
+function updateOffCanvasCart() {
+    $.ajax({
+        url: 'get_cart_data.php', 
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            let cartHtml = '';
+            if (data.cartItems.length > 0) {
+                cartHtml += '<div class="cart-items">';
+                data.cartItems.forEach(function(item, index) {
+                cartHtml += '<div class="item" id="item-' + index + '">';
+                cartHtml += '<p>Name: ' + item.Product_Name + '</p>';
+                cartHtml += '<p>Size: ' + item.Product_Size + '</p>';
+                cartHtml += '<p>Quantity: ' + item.Product_Quantity + '</p>';
+                cartHtml += '<p>Flavor: ' + item.Product_Flavor + '</p>';
+                cartHtml += '<p>Price: $' + item.Product_Price + '</p>';
+                cartHtml += '<button type="button" class="btn-add-to-cart remove-item" data-id="' + index + '">Remove Item</button>';
+                cartHtml += '<hr>';
+                cartHtml += '</div>';
+                });
+                cartHtml += '</div>';
+            } else {
+                cartHtml = '<p>Your cart is empty.</p>';
+            }
+    
+            $('#offcanvas-cart').html(cartHtml);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching cart data:', error);
+        }
+    });
+    }
+
+openNavBtn.on('click', function () {
+    var bootstrapOffcanvas = new bootstrap.Offcanvas(myOffcanvas.get(0));
+    bootstrapOffcanvas.show();
+    updateOffCanvasCart();
+});
+
+
 $(document).ready(function() {
-    $('#offcanvas-body').on('click', '.remove-item', function(data) {
+    $('#offcanvas-cart').on('click', '.remove-item', function(data) {
         var item_id = $(this).data('id');
-        console.log(data); // Log the response
-        
         $.post('remove_item.php', { item_id: item_id }, function(data) {
-            console.log(data); // Log the response
-            if (data === 'success') {
+            if (data.status === 'success') {
                 $('#item-' + item_id).remove();
             }
         });
     });
 });
-    
-
-
-var myOffcanvas = document.getElementById('myNav');
-var openNavBtn = document.getElementById('openNavBtn');
-
-    openNavBtn.addEventListener('click', function () {
-        var bootstrapOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
-        bootstrapOffcanvas.show();
-    });

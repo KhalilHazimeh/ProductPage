@@ -10,7 +10,7 @@ $id = isset($_GET['product_id']) ? $_GET['product_id'] : 1;
     $result = $conn->query($sql);
     $count = $result->fetch_row()[0];
     if ($count>0){
-        header("Location: http://localhost/ProductPage/ProductPage/product.php?".$id."?register=failed");
+        header("Location: http://localhost/ProductPage/ProductPage/home.php?".$id."?register=failed");
         exit();
     }
     else{
@@ -19,7 +19,7 @@ $id = isset($_GET['product_id']) ? $_GET['product_id'] : 1;
         $stmt ->execute([$userName,$pwd]);
         $conn=null;
         $stmt=null;
-        header("Location: http://localhost/ProductPage/ProductPage/product.php?id=".$id);
+        header("Location: http://localhost/ProductPage/ProductPage/home.php?id=".$id);
         exit();
         $_SESSION['loggedin'] = true;
     }
