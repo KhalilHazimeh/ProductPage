@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (authenticateUser($enteredUsername, $enteredPassword, $conn)) {
         $_SESSION['loggedin'] = true;
-        header("Location: http://localhost/ProductPage/ProductPage/home.php?id=".$id);
+        header("Location: http://localhost/ProductPage/ProductPage/admin/products.php");
         exit();
     } else {
         header("Location: http://localhost/ProductPage/ProductPage/home.php?status=failed");

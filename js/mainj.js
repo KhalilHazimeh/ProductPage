@@ -254,3 +254,37 @@ $(document).ready(function() {
         });
     });
 });
+
+$(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip();
+	
+	var checkbox = $('table tbody input[type="checkbox"]');
+	$("#selectAll").click(function(){
+		if(this.checked){
+			checkbox.each(function(){
+				this.checked = true;                        
+			});
+		} else{
+			checkbox.each(function(){
+				this.checked = false;                        
+			});
+		} 
+	});
+	checkbox.click(function(){
+		if(!this.checked){
+			$("#selectAll").prop("checked", false);
+		}
+	});
+});
+
+$(document).ready(function() {
+    $('.delete_inside').on('click', function(data) {
+        var item_id = $('.delete').data('id');
+        $.post('admin/delete_product.php', { delete_product_id: item_id }, function(data) {
+            if (data.status === 'success') {
+                $('#' +item_id).remove();
+            }
+        });
+    });
+});
+

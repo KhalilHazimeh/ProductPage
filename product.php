@@ -84,7 +84,50 @@ public function getProductFlavors($id) {
     }
     return $flavors;
 
+}
+public function getAllProductValues() {
 
+    $query = "SELECT * FROM products"; 
+    $result = $this->conn->query($query);
+
+        $products = [];
+        $count=0;
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $products[] = $row;
+                $count++;
+            }
+        }
+
+        return ['products' => $products, 'count' => $count];
+}
+
+public function addProduct($id,$name, $price, $old_price, $image, $brand_id) {
+    $id = intval($id);
+    $name = $this->conn->real_escape_string($name);
+    $price = floatval($price);
+    $old_price = floatval($old_price);
+    $image = $this->conn->real_escape_string($image);
+    $brand_id = intval($brand_id);
+
+    $query = "INSERT INTO `products`(`id`, `name`, `price`, `old-price`, `image`, `brand_id`) VALUES ($id, '$name', $price, $old_price, '$image', $brand_id);";
+    if ($this->conn->query($query)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+public function deleteProduct($id) {
+    $query = "DELETE FROM `products` WHERE id = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("i", $id);
+
+    if ($stmt->execute()) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 }
