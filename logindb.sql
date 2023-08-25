@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2023 at 06:45 PM
+-- Generation Time: Aug 25, 2023 at 06:08 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -133,7 +133,8 @@ CREATE TABLE `products` (
 INSERT INTO `products` (`id`, `name`, `price`, `old-price`, `image`, `brand_id`) VALUES
 (1, 'Laperva Iso Triple ZERO Next Generation', 325, 372, 'images/nwGM1Rzm9Q8rtxuSEi0buHcjfBmhz077VyzROqoC.png', 1),
 (2, 'Laperva Triple Mass Gainer', 297, 325, 'images/BsPIf08zG9TFDvJkgT75QEUHpDiq1CGxMxdv1ujM.jpg', 1),
-(3, 'Body Builder 100% Whey Protein', 271, 300, 'images/cbQSvFiAo9zMDGSZVZaeVBXnufColeuYiRzMtwce.jpg', 2);
+(3, 'Body Builder 100% Whey Protein', 271, 300, 'images/cbQSvFiAo9zMDGSZVZaeVBXnufColeuYiRzMtwce.jpg', 2),
+(4, 'Laperva Mass Gainer', 445, 412, ' ', 1);
 
 -- --------------------------------------------------------
 
@@ -312,8 +313,8 @@ ALTER TABLE `products`
 -- Constraints for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  ADD CONSTRAINT `product_categories_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
-  ADD CONSTRAINT `product_categories_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`);
+  ADD CONSTRAINT `product_categories_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`),
+  ADD CONSTRAINT `product_categories_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
 -- Constraints for table `sizes`
