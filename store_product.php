@@ -17,7 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     'Product_Flavor' => $_POST['flavor'],
     );
 
-    $_SESSION['cart_items'][$_POST['product_id']] = $product;
+    $productId = md5($product['Product_Name'] . $product['Product_Size'] . $product['Product_Flavor']);
+    if (isset($_SESSION['cart_items'][$productId])) {
+        $_SESSION['cart_items'][$productId]['Product_Quantity'] += $product['Product_Quantity'];
+        $_SESSION['cart_items'][$productId]['Product_Price'] = $product['Product_Price'];
+    } else {
+        $_SESSION['cart_items'][$productId] = $product;
+    }
     $response = array('status' => 'success', 'message' => 'Product added to cart successfully!');
     header('Content-Type: application/json');
     echo json_encode($response);

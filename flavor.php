@@ -1,5 +1,5 @@
 <?php 
-include("DB_connection.php");
+/*include("DB_connection.php");
 $id = isset($_GET['product_id']) ? $_GET['product_id'] : 1;
 
 
@@ -21,5 +21,5 @@ while ($row = mysqli_fetch_assoc($result)) {
     $flavors_array[$row['flavor_id'].":".$row['size_id']] = $row['flavor'];
 }
 
-mysqli_close($conn);
+mysqli_close($conn);*/
 ?>

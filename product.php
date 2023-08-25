@@ -1,420 +1,134 @@
 <?php
-session_start();
-include("head.php");
-include("DB_connection.php");
-$loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'];
+class Product {
+    private $conn;
+    private $table_name = "products";
+
+    public $id;
+    public $name;
+    public $price;
+    public $old_price;
+    public $image;
+    public $brand_id;
+    public $brand_name;
+
+    public function __construct($db) {
+        $this->conn = $db;
+    }
+
+    public function getProduct($id) {
+        $query = "SELECT p.*, b.brand_name FROM " . $this->table_name . " p
+        LEFT JOIN brands b ON p.brand_id = b.brand_id
+        WHERE p.id = $id LIMIT 1";
+        $result = $this->conn->query($query);
+
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $this->name = $row['name'];
+            $this->price = $row['price'];
+            $this->old_price = $row['old-price'];
+            $this->image = $row['image'];
+            $this->brand_id = $row['brand_id'];
+            $this->brand_name = $row['brand_name'];
+            return true;
+        }
+
+        return false;
+        }
+
+public function getProductCategories($id){
+    $query = "SELECT c.category_name
+            FROM categories c
+            JOIN product_categories pc ON c.category_id = pc.category_id
+            WHERE pc.product_id =$id";
+    $categ = $this->conn->query($query);
+
+    $categoryNames = [];
+
+    if ($categ && $categ->num_rows > 0) {
+        while ($row = $categ->fetch_assoc()) {
+            $categoryNames[] = $row['category_name'];
+        }
+    }
+
+    return $categoryNames;
+}
+
+
+public function getProductSizes($id) {
+    $query = "SELECT size_id,size FROM sizes WHERE product_id = $id";
+    $result = $this->conn->query($query);
+
+    $sizes = [];
+
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $sizes[$row['size_id']] = $row['size'];
+        }
+    }
+
+    return $sizes;
+}
+
+public function getProductFlavors($id) {
+    $query = "SELECT sizes.size_id, flavor_id, flavor FROM falvors
+    INNER JOIN sizes ON falvors.size_id = sizes.size_id
+    INNER JOIN products ON sizes.product_id = products.id
+    WHERE products.id = $id";
+    $result = $this->conn->query($query);
+
+    $flavors = [];
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $flavors[$row['flavor_id'].":".$row['size_id']] = $row['flavor'];
+        }
+    }
+    return $flavors;
+
+}
+public function getAllProductValues() {
+
+    $query = "SELECT * FROM products"; 
+    $result = $this->conn->query($query);
+
+        $products = [];
+        $count=0;
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $products[] = $row;
+                $count++;
+            }
+        }
+
+        return ['products' => $products, 'count' => $count];
+}
+
+public function addProduct($id,$name, $price, $old_price, $image, $brand_id) {
+    $id = intval($id);
+    $name = $this->conn->real_escape_string($name);
+    $price = floatval($price);
+    $old_price = floatval($old_price);
+    $image = $this->conn->real_escape_string($image);
+    $brand_id = intval($brand_id);
+
+    $query = "INSERT INTO `products`(`id`, `name`, `price`, `old-price`, `image`, `brand_id`) VALUES ($id, '$name', $price, $old_price, '$image', $brand_id);";
+    if ($this->conn->query($query)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+public function deleteProduct($id) {
+    $query = "DELETE FROM `products` WHERE id = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("i", $id);
+
+    if ($stmt->execute()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+}
 ?>
-<?php include "get-product-info.php"; ?>
-<?php include 'sizes.php';?>
-<?php include 'flavor.php';?>
-<?php if ((isset($product)) && (isset($brand))): ?>
-<!DOCTYPE html>
-<html lang="en">
-<?php 
-?>
-<body>
-    <section class="free_shipping_alert">
-        <div>Enjoy FREE SHIPPING on orders over 80 AED</div>
-    </section>
-    <section class="top-nav-bar">
-            <div class="top-nav">
-                <div class="row justify-content-between">
-                    <div class="col-lg-6">
-                    <div class="top-nav-left d-none d-lg-block">
-                        <span>Dr Nutrition UAE</span>
-                    </div>
-                    </div>
-                    <div class="col-lg-6">
-                    <div class="top-nav-right">
-                        <ul class="list-inline top-nav-right-list">
-                            <li>
-                                <a title="Contact" href="#">
-                                    <i class="fa-solid fa-phone" style="color: #68367f; margin-right: 10px;"></i>
-                                    Contact
-                                </a>
-                            </li>
-                            <li>
-                                <a title="AED" href="">
-                                    <i class="fa-solid fa-money-bill " style="color: #68367f; margin-right: 10px;"></i>
-                                    AED
-                                </a>
-                            </li>
-                            <li>
-                                <a  title="Login" data-bs-toggle="modal" data-bs-target="#exampleModal"  href="<?php echo $loggedIn ? "home.php?logout=1" : "login.php"; ?>">
-                                    <i class="fa-solid fa-right-to-bracket"style="color: #68367f; margin-right: 10px;"></i>
-                                    <?php echo $loggedIn ? "My Account" : "Login"; ?>
-                                </a>
-                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form action= "login.php" method="post" >
-                                                <?php
-                                                    if (isset($_GET['status']) && $_GET['status'] === 'failed') {
-                                                        echo '<p style="color: red;">Incorrect username or password.</p>';
-                                                    }
-                                                ?>
-                                                    <div class="row">
-                                                        <div class="col-lg-12" style="padding-bottom: 20px;">
-                                                            <div class="row">
-                                                                <div class="col-lg-4">
-                                                                    <label for="Username" style="font-size: 20px; padding-right: 20px;">Username</label>
-                                                                </div>
-                                                                <div class="col-lg-8">
-                                                                    <input name="username" type="text" class="Username">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-12" style="padding-bottom: 20px;">
-                                                            <div class="row">
-                                                                <div class="col-lg-4">
-                                                                    <label for="password" style="font-size: 20px; padding-right: 20px;">Password</label>
-                                                                </div>
-                                                                <div class="col-lg-8">
-                                                                    <input name="password" type="text" class="password">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-12" style="padding-bottom: 20px;">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <input type="submit" value="Login">
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <a  data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
-                                    <i class="fa-solid fa-right-to-bracket"style="color: #68367f; margin-right: 10px;"></i>
-                                    Register
-                                </a>
-                                <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Register</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                                <form action= "register.php" method="post" >
-                                                <?php
-                                                    if (isset($_GET['register']) && $_GET['register'] === 'failed') {
-                                                        echo '<p style="color: red;">Username not available.</p>';
-                                                    }
-                                                ?>
-                                                    <div class="row">
-                                                        <div class="col-lg-12" style="padding-bottom: 20px;">
-                                                            <div class="row">
-                                                                <div class="col-lg-4">
-                                                                    <label for="Username" style="font-size: 20px; padding-right: 20px;">Username</label>
-                                                                </div>
-                                                                <div class="col-lg-8">
-                                                                    <input name="username" type="text" class="Username">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-12" style="padding-bottom: 20px;">
-                                                            <div class="row">
-                                                                <div class="col-lg-4">
-                                                                    <label for="password" style="font-size: 20px; padding-right: 20px;">Password</label>
-                                                                </div>
-                                                                <div class="col-lg-8">
-                                                                    <input name="password" type="text" class="password">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-12" style="padding-bottom: 20px;">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <input type="submit" value="Register">
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                    </div>
-                                </div>
-                                </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</section>
-    <header class="header-wrap">
-        <div class="header-wrap-inner">
-                <div class="row flex-nowrap justify-content-between position-relative">
-                    <div class="col-lg-3 header-column-left">
-                        <a title="Dr Nutrition UAE | Online Supplement & Nutrition Store" href="https://drnutrition.com/en-ae" class="header-logo">
-                            <img  src="images/headerlogo.png" alt="logo">
-                        </a>
-                    </div>
-                    <div class="col-lg-7 header-search-wrap">
-                        <div class="header-search">
-                            <form class="searchform">
-                                <div class="header-search-form">
-                                    <input type="text" name="query" id="searchInput" autocomplete="off" placeholder="Search for porducts" class="form-control search-imput">
-                                    <div class="header-search-icon">
-                                        <button onclick="searchText()" class="btn btn-search">
-                                            <i class="fa-solid fa-magnifying-glass" style="color: white;"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 header-column-right d-flex">
-                        <div class="header-cart">
-                            <div class="icon-wrap">
-                                <i class="fa-solid fa-cart-plus" style="font-size: 31px; line-height: 36px; color: #191919; transition: .15s ease-in-out;"></i>
-                                <div id="count-basket" class="count">0</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <section class="nav-wrap">
-            <div class="navigation-inner">
-                <div class="category-nav">
-                    <div class="category-nav-inner">
-                        All Categories
-                        <i class="fa-solid fa-bars" style="padding-left: 50px; font-size: 20px;"></i>
-                    </div>
-                </div>
-                <div class="navbar-sec">
-                <nav class="navbar">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Offers&Stacks</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Shop</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ">Health Packages</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ">Stores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ">Blog</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ">BMI Calculator</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ">Book Appointment</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            </div>        
-    </section>
-    <section class="info">
-        <form id= "addToCartForm">
-            <input type="hidden" name="product_id" value= "<?php echo $id ?>">
-            <input type="hidden" name="name" value= "<?php echo $product['name'] ?>">
-            <input type="hidden" name="price" value="<?php echo $product['price'] ?>">
-            <input type="hidden" name="quantity" value="1">
-            <input type="hidden" name="size" value= "<?php foreach($sizes_array as $size){echo $size;break;} ?>">
-            <input type="hidden" name="flavor" value= "<?php foreach($flavors_array as $flavor){echo $flavor;break;} ?>">
-        <div class="info">
-            <div class="row">
-                <div class="col-lg-4 image-box">
-                    <img class=" product-img img-fluid" src="<?php echo $product['image']?>" alt="">
-                </div>
-                <div class="col-lg-5 details">
-                    <div class="details-info">
-                        <h3 id="product-title"><?php echo $product['name'] ?></h3>
-                        <span class="free-delivery"><i class="las la-truck"></i>
-                            Free Delivery On Orders Above AED&nbsp;80
-                        </span>
-                        <p id="brand-title">Brand: <?php echo $brand;?></p>
-                    </div>
-                    <div class="details-info-middle">
-                        <div class="product-variants">
-                            <div class="form-group variant-custom-selection">
-                                <div class="row"><div class="col-lg-6">
-                                    <label>
-                                        Size
-                                    </label>
-                                </div> 
-                                <div class="col-lg-14">
-                                    <?php
-                                        echo '<ul id="sizeList" class="list-inline form-custom-radio custom-selection">';
-                                        $firstSize = true;
-                                        foreach ($sizes_array as $id=>$size) {
-                                            $activeClass = $firstSize ? 'active' : '';
-                                            $firstSize = false;
-                                            echo '<li id="li_size_'.$id.'" data-id="'.$id.'" class="option '.$activeClass.'">';
-                                            echo '<span href="#" class="option-label">' . $size . ' LB </span>';
-                                            echo '</li>';
-                                        }
-                                        echo '</ul>';                                            
-                                    ?>
-                                </div>
-                            </div>
-                        </div> 
-                        <div class="form-group variant-custom-selection">
-                            <div class="row">
-                                <div class="col-xl-2 col-lg-6">
-                                    <label>
-                                        Flavor
-                                    </label>
-                                </div> 
-                                <div class="col-lg-14">
-                                <?php
-                                    echo '<ul id="flavorList" class="flavorList list-inline form-custom-radio custom-selection">';
-                                    $firstFlavor=true;
-                                        foreach ($flavors_array as $idWithCommaSeparator =>$flavor) {
-                                            $activeClass = $firstFlavor ? 'active' : '';
-                                            $firstFlavor = false;
-                                            $arrayIds = explode(":", $idWithCommaSeparator); 
-                                            echo '<li id="li_flavor_'.$arrayIds[0].'" data-size="'.$arrayIds[1].'" class="flavor '.$activeClass.'">';
-                                            echo '<span href="#" class="option-label">' . $flavor . '</span>';
-                                            echo '</li>';
-                                        }
-                                        echo '</ul>';                                            
-                                    ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bullet-points">
-                        <ul>
-                            <li>28 g Protein Per 30 g Serving (May vary from flavor to another)</li> 
-                            <li>0 sugar &amp; 0 carb &amp; 0 fat</li> 
-                            <li>Rapidly Absorbed</li> 
-                            <li>Supports Muscle Growth</li> 
-                            <li>Supports muscle recovery</li>
-                        </ul>
-                    </div> 
-                    <div class="additional-info-new">
-                        <ul>
-                            <li class="sku">
-                                <label>Barcode:</label> 
-                                <span>6290360501499</span>
-                            </li> 
-                            <li class="sku">
-                                <label>Item No:</label> 
-                                <span>AE-00015681</span>
-                            </li> 
-                            <li class="sku">
-                                <label>Dimensions:</label> 
-                                <span>21</span> 
-                                <span>×</span> 
-                                <span>31</span> 
-                                <span>×</span> 
-                                <span>21</span> 
-                                <span>CM</span>
-                            </li> 
-                            <li class="sku">
-                                <label>Weight:</label> 
-                                <span>1.82</span> 
-                                <span>KG</span>
-                            </li> 
-                            <li>
-                                <label>Categories:</label> 
-                                <div>
-                                    <?php
-                                        echo '<ul class="list-inline form-custom-radio custom-selection">';
-                                        foreach ($categories_array as $category) {
-                                            echo '<li class="">';
-                                            echo '<span href="#" class="option-label">' . $category . ' </span>';
-                                            echo '</li>';
-                                        }
-                                        echo '</ul>';                                            
-                                    ?>
-                                    </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                </div>
-                <div class="col-lg-3 right-side-bar">
-                    <aside class="right-sidebar for-product-show">
-                        <div class="details-info-middle right-product-details">
-                            <div class="product-price d-none d-md-block">
-                                <span class="pricee">AED <span id="originalPrice"><?php echo $product['price'] ?></span> </span>
-                                <span class="previous-price">AED <?php echo $product['old-price'] ?></span>
-                            </div>
-                            <div class="details-info-middle-actions">
-                                <div class="number-picker">
-                                    <label for="qty">Quantity</label> 
-                                    <button type="button" onclick="decrement()" class="btn btn-number btn-minus">
-                                        <i class="fa-solid fa-minus"></i>
-                                    </button> 
-                                    <span id="counter">1</span>
-                                    <button type="button" onclick="increment()" class="btn btn-number btn-plus">
-                                        <i class="fa-solid fa-plus"></i>
-                                    </button>
-                                </div>
-                            <div>
-                                <button id ="addToCartButton" class="btn-add-to-cart">
-                                    <i class="fa-solid fa-cart-shopping"></i>
-                                    Add to Cart
-                                </button>
-                                <div class="btn-add-to-cart" id="loading" style="display: none;">Loading...</div>
-                                <div id="message"></div>
-                            </div>
-                            </div>
-                            <div>
-                                <button id="openNavBtn" data-toggle="offcanvas" data-target="#myNav" class="btn-checkout">
-                                    <i class="fa-solid fa-money-check-dollar"></i>   
-                                    Continue to Checkout
-                                </button>
-                                <div class="offcanvas offcanvas-end" tabindex="-1" id="myNav">
-                                    <div class="offcanvas-header">
-                                        <h5 class="offcanvas-title">Your Basket</h5>
-                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                    </div>
-                                    <div id="offcanvas-body" class="offcanvas-body">
-                                        <div>
-                                            <?php
-                                                if(isset($_SESSION['cart_items']) && is_array($_SESSION['cart_items'])) {
-                                                $cartItems = $_SESSION['cart_items'];
-                                                foreach ($cartItems as $id => $item) {
-                                                    echo '<div class="item" id="item-'.$id.'">';
-                                                    echo '<p>Name: ' . $item['Product_Name'] . '</p>';
-                                                    echo '<p>Size: ' . $item['Product_Size'] . 'LB</p>';
-                                                    echo '<p>Quantity: ' . $item['Product_Quantity'] . '</p>';
-                                                    echo '<p>Flavor: ' . $item['Product_Flavor'] . '</p>';
-                                                    echo '<p>Price: $' . $item['Product_Price'] . '</p>';
-                                                    echo '<button class="btn-add-to-cart remove-item " data-id="'.$id.'">Remove Item</button> ';
-                                                    echo '<hr>'; 
-                                                    echo '</div>';
-                                                }
-                                                } else {
-                                                    echo '<p>Your cart is empty.</p>';
-                                                }
-                                            ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </aside>
-            </div>
-        </div>
-        </div>
-    </form>
-    </section>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/all.min.js"></script>
-    <script src="js/mainj.js?v=<?php echo time()?>"></script>
-<?php endif; ?>
-</body>
-</html>
