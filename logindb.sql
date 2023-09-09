@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 25, 2023 at 06:08 PM
+-- Generation Time: Sep 09, 2023 at 09:58 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -38,7 +38,8 @@ CREATE TABLE `brands` (
 
 INSERT INTO `brands` (`brand_id`, `brand_name`) VALUES
 (1, 'Laperva'),
-(2, 'Body Builder');
+(2, 'Body Builder '),
+(8, 'Mass Gainer');
 
 -- --------------------------------------------------------
 
@@ -58,58 +59,73 @@ CREATE TABLE `categories` (
 INSERT INTO `categories` (`category_id`, `category_name`) VALUES
 (1, 'Proteins'),
 (2, 'Whey Protein Isolate'),
-(3, 'Sports Nutrition'),
-(4, 'Mass Gainers'),
-(5, 'High Calorie Gainers'),
-(6, 'Sports Nutrition');
+(3, 'Sport Gainer'),
+(9, 'Mass Gainer');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `falvors`
+-- Table structure for table `options`
 --
 
-CREATE TABLE `falvors` (
-  `flavor_id` int(11) NOT NULL,
-  `flavor` varchar(255) NOT NULL,
-  `size_id` int(11) NOT NULL
+CREATE TABLE `options` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `falvors`
+-- Dumping data for table `options`
 --
 
-INSERT INTO `falvors` (`flavor_id`, `flavor`, `size_id`) VALUES
-(6, 'Belgian Chocolate', 1),
-(7, 'Cafe Late', 2),
-(8, 'Chocoalte Coconut', 2),
-(9, 'Pina Colada', 2),
-(10, 'Strawberry', 2),
-(11, 'Banana', 2),
-(12, 'Belgian Toffee', 2),
-(13, 'Dreamy Vanilla', 3),
-(14, 'Belgian Vanilla', 3),
-(15, 'Choco Peanut', 3),
-(16, 'Cafe Late', 3),
-(17, 'Belgian Toffee', 3),
-(18, 'Vanilla Caramel', 4),
-(19, 'Milk Chocolate', 4),
-(20, 'Strawberry Milkshake', 4),
-(21, 'Cookies and Cream', 4),
-(29, 'Milk Chocolate', 5),
-(30, 'Vanilla Caramel', 5),
-(31, 'Strawberry Milshake', 5),
-(42, 'Strawberry Cotton Candy', 7),
-(43, 'Chocolate', 7),
-(44, 'Vanilla', 7),
-(45, 'Cookies and Cream', 7),
-(51, 'Double Rich Chocolate', 8),
-(52, 'Double Rich Chocolate', 9),
-(53, 'Cookies and Cream', 9),
-(54, 'Snekers Chocolate Peanut', 9),
-(55, 'Cherry Cake', 9),
-(56, 'Delicious Strawberry', 9),
-(57, 'Chocolate Caramel', 9);
+INSERT INTO `options` (`id`, `name`) VALUES
+(1, 'Flavor'),
+(2, 'Size'),
+(3, 'Color'),
+(4, 'Ingredient');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `option_values`
+--
+
+CREATE TABLE `option_values` (
+  `id` int(11) NOT NULL,
+  `option_id` int(11) NOT NULL,
+  `value_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `option_values`
+--
+
+INSERT INTO `option_values` (`id`, `option_id`, `value_name`) VALUES
+(5, 2, '2 LB'),
+(6, 2, '3 LB'),
+(7, 2, '4 LB'),
+(8, 2, '5 LB'),
+(9, 2, '6 LB'),
+(10, 2, '7 LB'),
+(11, 2, '8 LB'),
+(12, 2, '9 LB'),
+(13, 2, '10 Lb'),
+(14, 1, 'Strawberry'),
+(15, 1, 'Strawberry Cream'),
+(16, 1, 'Belgian Chocolate'),
+(17, 1, 'Cafe Late'),
+(18, 1, 'Chocolate Coconut'),
+(19, 1, 'Pina Colada'),
+(20, 1, 'Banana'),
+(21, 1, 'Belgian Tofe'),
+(22, 1, 'Dreamy Vanilla'),
+(23, 1, 'Belgian Vanilla'),
+(24, 1, 'Choco Peanut'),
+(25, 1, 'Vanilla Caramel'),
+(26, 1, 'Milk Chocolate'),
+(27, 1, 'Strawberry Milkshake'),
+(28, 1, 'Strawberry Cotton Candy'),
+(29, 1, 'Cookies and Cream'),
+(30, 1, 'Double Chip Chocolate');
 
 -- --------------------------------------------------------
 
@@ -131,10 +147,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `price`, `old-price`, `image`, `brand_id`) VALUES
-(1, 'Laperva Iso Triple ZERO Next Generation', 325, 372, 'images/nwGM1Rzm9Q8rtxuSEi0buHcjfBmhz077VyzROqoC.png', 1),
-(2, 'Laperva Triple Mass Gainer', 297, 325, 'images/BsPIf08zG9TFDvJkgT75QEUHpDiq1CGxMxdv1ujM.jpg', 1),
-(3, 'Body Builder 100% Whey Protein', 271, 300, 'images/cbQSvFiAo9zMDGSZVZaeVBXnufColeuYiRzMtwce.jpg', 2),
-(4, 'Laperva Mass Gainer', 445, 412, ' ', 1);
+(1, 'Khalil Hazimeh', 1241, 121, '0', 1),
+(2, 'Lapreva Boduy Bilder', 319, 121, '0', 2),
+(3, 'Mr. Lilac', 319, 275, '0', 1);
 
 -- --------------------------------------------------------
 
@@ -154,39 +169,54 @@ CREATE TABLE `product_categories` (
 INSERT INTO `product_categories` (`product_id`, `category_id`) VALUES
 (1, 1),
 (1, 2),
-(1, 3),
-(2, 4),
-(2, 5),
-(2, 6),
-(3, 1),
-(3, 2),
-(3, 6);
+(2, 2),
+(3, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sizes`
+-- Table structure for table `product_options`
 --
 
-CREATE TABLE `sizes` (
-  `size_id` int(11) NOT NULL,
-  `size` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL
+CREATE TABLE `product_options` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `option_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `sizes`
+-- Dumping data for table `product_options`
 --
 
-INSERT INTO `sizes` (`size_id`, `size`, `product_id`) VALUES
-(1, 2, 1),
-(2, 5, 1),
-(3, 4, 1),
-(4, 6, 2),
-(5, 13, 2),
-(7, 5, 3),
-(8, 10, 3),
-(9, 4, 3);
+INSERT INTO `product_options` (`id`, `product_id`, `option_id`) VALUES
+(19, 2, 1),
+(20, 2, 2),
+(21, 1, 1),
+(22, 1, 2),
+(25, 3, 1),
+(26, 3, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_option_combinations`
+--
+
+CREATE TABLE `product_option_combinations` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `first_option_id` int(11) NOT NULL,
+  `first_option_value_id` int(11) NOT NULL,
+  `second_option_id` int(11) DEFAULT NULL,
+  `second_option_value_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_option_combinations`
+--
+
+INSERT INTO `product_option_combinations` (`id`, `product_id`, `first_option_id`, `first_option_value_id`, `second_option_id`, `second_option_value_id`) VALUES
+(5, 1, 1, 21, 2, 11);
 
 -- --------------------------------------------------------
 
@@ -207,7 +237,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `pwd`) VALUES
 (1, 'Khalil', 'khalil123'),
 (17, 'Abdullah', 'abdullah123'),
-(18, 'Khalil1212', 'asasas');
+(19, 'Ali', 'ali123');
 
 --
 -- Indexes for dumped tables
@@ -226,11 +256,17 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`category_id`);
 
 --
--- Indexes for table `falvors`
+-- Indexes for table `options`
 --
-ALTER TABLE `falvors`
-  ADD PRIMARY KEY (`flavor_id`),
-  ADD KEY `size_id` (`size_id`);
+ALTER TABLE `options`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `option_values`
+--
+ALTER TABLE `option_values`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `key-name-1` (`option_id`);
 
 --
 -- Indexes for table `products`
@@ -244,14 +280,26 @@ ALTER TABLE `products`
 --
 ALTER TABLE `product_categories`
   ADD PRIMARY KEY (`product_id`,`category_id`),
-  ADD KEY `category_id` (`category_id`);
+  ADD KEY `product_categories_ibfk_2` (`category_id`);
 
 --
--- Indexes for table `sizes`
+-- Indexes for table `product_options`
 --
-ALTER TABLE `sizes`
-  ADD PRIMARY KEY (`size_id`),
-  ADD KEY `product_id` (`product_id`);
+ALTER TABLE `product_options`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `key-2-1` (`product_id`),
+  ADD KEY `key-2-2` (`option_id`);
+
+--
+-- Indexes for table `product_option_combinations`
+--
+ALTER TABLE `product_option_combinations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `key-1-1` (`product_id`),
+  ADD KEY `key-1-2` (`first_option_id`),
+  ADD KEY `key-1-3` (`first_option_value_id`),
+  ADD KEY `key-1-4` (`second_option_id`),
+  ADD KEY `key-1-5` (`second_option_value_id`);
 
 --
 -- Indexes for table `users`
@@ -267,41 +315,53 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `brand_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `brand_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `falvors`
+-- AUTO_INCREMENT for table `options`
 --
-ALTER TABLE `falvors`
-  MODIFY `flavor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+ALTER TABLE `options`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `sizes`
+-- AUTO_INCREMENT for table `option_values`
 --
-ALTER TABLE `sizes`
-  MODIFY `size_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE `option_values`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+--
+-- AUTO_INCREMENT for table `product_options`
+--
+ALTER TABLE `product_options`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+
+--
+-- AUTO_INCREMENT for table `product_option_combinations`
+--
+ALTER TABLE `product_option_combinations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `falvors`
+-- Constraints for table `option_values`
 --
-ALTER TABLE `falvors`
-  ADD CONSTRAINT `falvors_ibfk_1` FOREIGN KEY (`size_id`) REFERENCES `sizes` (`size_id`);
+ALTER TABLE `option_values`
+  ADD CONSTRAINT `key-name-1` FOREIGN KEY (`option_id`) REFERENCES `options` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `products`
@@ -313,14 +373,25 @@ ALTER TABLE `products`
 -- Constraints for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  ADD CONSTRAINT `product_categories_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`),
-  ADD CONSTRAINT `product_categories_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+  ADD CONSTRAINT `product_categories_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_categories_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `sizes`
+-- Constraints for table `product_options`
 --
-ALTER TABLE `sizes`
-  ADD CONSTRAINT `sizes_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+ALTER TABLE `product_options`
+  ADD CONSTRAINT `key-2-1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `key-2-2` FOREIGN KEY (`option_id`) REFERENCES `options` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `product_option_combinations`
+--
+ALTER TABLE `product_option_combinations`
+  ADD CONSTRAINT `key-1-1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `key-1-2` FOREIGN KEY (`first_option_id`) REFERENCES `options` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `key-1-3` FOREIGN KEY (`first_option_value_id`) REFERENCES `option_values` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `key-1-4` FOREIGN KEY (`second_option_id`) REFERENCES `options` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `key-1-5` FOREIGN KEY (`second_option_value_id`) REFERENCES `option_values` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
