@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST["title"];
 
     if ($brand->addBrand($name)) {
-        header("Location: http://localhost/ProductPage/ProductPage/admin/brands.php");
+        header("Location:brands.php");
     } else {
         echo "Failed to add product.";
     }

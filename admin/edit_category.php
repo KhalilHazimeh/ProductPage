@@ -18,7 +18,7 @@ if (isset($_GET['edit_category_id']) && $_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute()) { 
         $stmt->close();
         $db->close();
-        header("Location: http://localhost/ProductPage/ProductPage/admin/categories.php");
+        header("Location:categories.php");
         exit();
     } else {
         $stmt->close();

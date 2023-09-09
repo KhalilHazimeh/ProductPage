@@ -53,7 +53,7 @@ if (isset($_POST['edit_product_id']) && $_SERVER["REQUEST_METHOD"] == "POST") {
         }
     
         $db->close();
-        header("Location: http://localhost/ProductPage/ProductPage/admin/products.php");
+        header("Location:products.php");
         exit();
     } else {
         $stmt->close();

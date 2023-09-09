@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmtInsert->bind_param("s", $valueName);
     
         if ($stmtInsert->execute()) {
-            header("Location: http://localhost/ProductPage/ProductPage/admin/options_categories.php");
+            header("Location:options_categories.php");
             exit;
         } else {
             echo "Error inserting data into the database: " . $stmtInsert->error;

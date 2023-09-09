@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $delete_option_id = $_POST['delete_option_id'];
         $sql2 = "DELETE FROM options WHERE id = $delete_option_id";
         $db->query($sql2); // Execute the query without checking the result
-            header("Location: http://localhost/ProductPage/ProductPage/admin/options_categories.php");
+            header("Location:options_categories.php");
             exit;
             }
     }

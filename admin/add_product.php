@@ -8,7 +8,7 @@ $db = new mysqli($servername, $username, $password, $dbname);
 $product = new Product($db);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id = $_POST['id'];
+    $id = Null; // auto-increment
     $name = $_POST["name"];
     $price = $_POST["price"];
     $old_price = $_POST["oldPrice"];
@@ -17,35 +17,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $selectedCategories = isset($_POST['categories']) ? $_POST['categories'] : array();
     $optionIds = isset($_POST['product_options']) ? $_POST['product_options'] : array();
     $combinations = isset($_POST['combinations']) ? $_POST['combinations'] : array();
-
-    if ($product->addProduct($id, $name, $price, $old_price, $image, $brand_id, $selectedCategories)) {
-        $productId = $id;
+    $firstOptionId = 0;
+    $secondOptionId = 0;
+    if ($productId = $product->addProduct($id, $name, $price, $old_price, $image, $brand_id, $selectedCategories)) {
     
         $insertedOptionIds = array();
     
-        foreach ($optionIds as $optionId) {
+        foreach ($optionIds as $key => $optionId) {
+            if($key == 0){
+                $firstOptionId = $optionId;
+            }
+            if($key == 1){
+                $secondOptionId = $optionId;
+            }
             $insertOptionQuery = "INSERT INTO product_options (product_id, option_id) VALUES ($productId, $optionId)";
-            echo($insertOptionQuery);
+            //echo($insertOptionQuery);
             $db->query($insertOptionQuery);
             if ($db->affected_rows > 0) {
                 $insertedOptionIds[] = $optionId;
             }
-
         }
-    
-        for ($i = 0; $i < count($combinations); $i += 2) {
-            $firstOptionValueId = (int)$combinations[$i];
-            $secondOptionValueId = (int)$combinations[$i + 1];
 
-            foreach ($insertedOptionIds as $optionId) {
-                $insertCombinationQuery = "INSERT INTO product_option_combinations (product_id, first_option_id, first_option_value_id, second_option_id, second_option_value_id) VALUES ($productId, $optionId, $firstOptionValueId, $optionId, $secondOptionValueId)";
-                echo($insertCombinationQuery);
-                $db->query($insertCombinationQuery);
+        for ($i = 0; $i < count($combinations[$firstOptionId]); $i++) {
+            $firstOptionValueId = (int)$combinations[$firstOptionId][$i];
+            $secondOptionValueId = 'Null';
+            if(isset($combinations[$secondOptionId][$i])){
+                $secondOptionValueId = (int)$combinations[$secondOptionId][$i];
             }
+
+            $insertCombinationQuery = "INSERT INTO product_option_combinations (product_id, first_option_id, first_option_value_id, second_option_id, second_option_value_id) VALUES ($productId, $firstOptionId, $firstOptionValueId, $secondOptionId, $secondOptionValueId)";
+            $db->query($insertCombinationQuery);
         }
     
-        //header("Location: http://localhost/ProductPage/ProductPage/admin/products.php");
-        //exit; 
+        header("Location: products.php");
+        exit; 
     } else {
         echo "Failed to add product.";
     }

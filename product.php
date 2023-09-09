@@ -111,7 +111,7 @@ public function getAllProductValues() {
 }
 
 public function addProduct($id, $name, $price, $old_price, $image, $brand_id, $selectedCategories) {
-    $id = intval($id);
+    //$id = intval($id);
     $name = $this->conn->real_escape_string($name);
     $price = floatval($price);
     $old_price = floatval($old_price);
@@ -123,16 +123,17 @@ public function addProduct($id, $name, $price, $old_price, $image, $brand_id, $s
     $stmt->bind_param("issdis", $id, $name, $price, $old_price, $image, $brand_id);
 
     if ($stmt->execute()) {
+        $productId = $stmt->insert_id;
         foreach ($selectedCategories as $categoryId) {
             $categoryQuery = "INSERT INTO `product_categories`(`product_id`, `category_id`) VALUES (?, ?)";
             $categoryStmt = $this->conn->prepare($categoryQuery);
-            $categoryStmt->bind_param("ii", $id, $categoryId);
+            $categoryStmt->bind_param("ii", $productId, $categoryId);
             
             if (!$categoryStmt->execute()) {
                 return false;
             }
         }
-        return true;
+        return $productId;
     } else {
         return false;
     }

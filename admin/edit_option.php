@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute()) { 
         $stmt->close();
         $db->close();
-        header("Location: http://localhost/ProductPage/ProductPage/admin/options.php");
+        header("Location:options.php");
         exit();
     } else {
         $stmt->close();

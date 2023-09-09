@@ -305,11 +305,11 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
                     </ul>
 
                     <div class="tab-content">
-                        <div id="general" class="tab-pane fade show active">
-						<div class="form-group">
+                        <div id="general" class="tab-pane fade active">
+						<!-- <div class="form-group">
 							<label>ID</label>
 							<input name='id' type="text" class="form-control" required>
-					</div>
+						</div> -->
 						<div class="form-group">
 							<label>Name</label>
 							<input name='name' type="text" class="form-control" required>
@@ -389,6 +389,7 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
 
 	<script>
 	$(document).ready(function () {
+		$(".nav-link.active").click()
 		var selectedOptions = [];
 		var selectElements = {};
 		selectedOptions = $('input[name="product_options[]"]:checked');
@@ -406,9 +407,9 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
 					data: { optionID: optionID },
 					dataType: 'json',
 					success: function (response) {
-						var processedData = processData(response, optionID);
-						selectElements[optionID] = processedData;
-						callback(processedData);
+						var selectElementGenerated = generateSelectElement(response, optionID);
+						selectElements[optionID] = selectElementGenerated;
+						callback(selectElementGenerated);
 					},
 					error: function (xhr, status, error) {
 						console.error('Error fetching option values: ' + error);
@@ -417,8 +418,8 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
 			}
 		}
 
-		function processData(response, optionID) {
-			var selectElement = '<select class="form-control" name="combinations[]" id="selectOptionValues-' + optionID + '">';
+		function generateSelectElement(response, optionID) {
+			var selectElement = '<select class="form-control" name="combinations['+optionID+'][]" id="selectOptionValues-' + optionID + '">';
 			$.each(response, function (index, optionValue) {
 				var optionElement = '<option value="' + optionValue.id + '">' + optionValue.value_name + '</option>';
 				selectElement += optionElement;

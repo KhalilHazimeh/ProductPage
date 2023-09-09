@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $delete_product_id = $_POST['delete_product_id'];
         $sql2 = "DELETE FROM products WHERE id = $delete_product_id";
         $db->query($sql2); 
-            header("Location: http://localhost/ProductPage/ProductPage/admin/products.php");
+            header("Location:products.php");
             exit;
             }
     }
