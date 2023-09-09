@@ -6,9 +6,22 @@ $conn = new mysqli("localhost", "root", "", "logindb");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-$product_id = isset($_GET['product_id']) ? $_GET['product_id'] : 1;
 $product = new Product($conn);
-if ($product->getProduct($product_id)) {
+
+$editedProduct = null;
+$selectedCategoryIDs = array();
+
+if(isset($_GET['showEditModal']) && isset($_GET['id'])){
+	$editedProduct = $product->getProduct($_GET['id']);
+	$product_id = $_GET['id'];
+	$selectedCategoriesQuery = "SELECT category_id FROM product_categories WHERE product_id = $product_id";
+	$selectedCategoriesResult = $conn->query($selectedCategoriesQuery);
+
+	$selectedCategoryIDs = array();
+	while ($row = $selectedCategoriesResult->fetch_assoc()) {
+		$selectedCategoryIDs[] = $row['category_id'];
+	}
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,271 +35,9 @@ if ($product->getProduct($product_id)) {
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-<script>
-$(document).ready(function() {
-	$('.edit').click(function() {
-		var productId = $(this).data('id');
-		$('#editProductId').val(productId);
-	});
-});
-</script>
-<style>
-body {
-        color: #566787;
-		background: #f5f5f5;
-		font-family: 'Varela Round', sans-serif;
-		font-size: 13px;
-	}
-	.table-wrapper {
-        background: #fff;
-        padding: 20px 25px;
-        margin: 30px 0;
-		border-radius: 3px;
-        box-shadow: 0 1px 1px rgba(0,0,0,.05);
-    }
-	.table-title {        
-		padding-bottom: 15px;
-		background: #435d7d;
-		color: #fff;
-		padding: 16px 30px;
-		margin: -20px -25px 10px;
-		border-radius: 3px 3px 0 0;
-    }
-    .table-title h2 {
-		margin: 5px 0 0;
-		font-size: 24px;
-	}
-	.table-title .btn-group {
-		float: right;
-	}
-	.table-title .btn {
-		color: #fff;
-		float: right;
-		font-size: 13px;
-		border: none;
-		min-width: 50px;
-		border-radius: 2px;
-		border: none;
-		outline: none !important;
-		margin-left: 10px;
-	}
-	.table-title .btn i {
-		float: left;
-		font-size: 21px;
-		margin-right: 5px;
-	}
-	.table-title .btn span {
-		float: left;
-		margin-top: 2px;
-	}
-    table.table tr th, table.table tr td {
-        border-color: #e9e9e9;
-		padding: 12px 15px;
-		vertical-align: middle;
-    }
-	table.table tr th:first-child {
-		width: 60px;
-	}
-	table.table tr th:last-child {
-		width: 100px;
-	}
-    table.table-striped tbody tr:nth-of-type(odd) {
-    	background-color: #fcfcfc;
-	}
-	table.table-striped.table-hover tbody tr:hover {
-		background: #f5f5f5;
-	}
-    table.table th i {
-        font-size: 13px;
-        margin: 0 5px;
-        cursor: pointer;
-    }	
-    table.table td:last-child i {
-		opacity: 0.9;
-		font-size: 22px;
-        margin: 0 5px;
-    }
-	table.table td a {
-		font-weight: bold;
-		color: #566787;
-		display: inline-block;
-		text-decoration: none;
-		outline: none !important;
-	}
-	table.table td a:hover {
-		color: #2196F3;
-	}
-	table.table td a.edit {
-        color: #FFC107;
-    }
-    table.table td a.delete {
-        color: #F44336;
-    }
-    table.table td i {
-        font-size: 19px;
-    }
-	table.table .avatar {
-		border-radius: 50%;
-		vertical-align: middle;
-		margin-right: 10px;
-	}
-    .pagination {
-        float: right;
-        margin: 0 0 5px;
-    }
-    .pagination li a {
-        border: none;
-        font-size: 13px;
-        min-width: 30px;
-        min-height: 30px;
-        color: #999;
-        margin: 0 2px;
-        line-height: 30px;
-        border-radius: 2px !important;
-        text-align: center;
-        padding: 0 6px;
-    }
-    .pagination li a:hover {
-        color: #666;
-    }	
-    .pagination li.active a, .pagination li.active a.page-link {
-        background: #03A9F4;
-    }
-    .pagination li.active a:hover {        
-        background: #0397d6;
-    }
-	.pagination li.disabled i {
-        color: #ccc;
-    }
-    .pagination li i {
-        font-size: 16px;
-        padding-top: 6px
-    }
-    .hint-text {
-        float: left;
-        margin-top: 10px;
-        font-size: 13px;
-    }    
-	/* Custom checkbox */
-	.custom-checkbox {
-		position: relative;
-	}
-	.custom-checkbox input[type="checkbox"] {    
-		opacity: 0;
-		position: absolute;
-		margin: 5px 0 0 3px;
-		z-index: 9;
-	}
-	.custom-checkbox label:before{
-		width: 18px;
-		height: 18px;
-	}
-	.custom-checkbox label:before {
-		content: '';
-		margin-right: 10px;
-		display: inline-block;
-		vertical-align: text-top;
-		background: white;
-		border: 1px solid #bbb;
-		border-radius: 2px;
-		box-sizing: border-box;
-		z-index: 2;
-	}
-	.custom-checkbox input[type="checkbox"]:checked + label:after {
-		content: '';
-		position: absolute;
-		left: 6px;
-		top: 3px;
-		width: 6px;
-		height: 11px;
-		border: solid #000;
-		border-width: 0 3px 3px 0;
-		transform: inherit;
-		z-index: 3;
-		transform: rotateZ(45deg);
-	}
-	.custom-checkbox input[type="checkbox"]:checked + label:before {
-		border-color: #03A9F4;
-		background: #03A9F4;
-	}
-	.custom-checkbox input[type="checkbox"]:checked + label:after {
-		border-color: #fff;
-	}
-	.custom-checkbox input[type="checkbox"]:disabled + label:before {
-		color: #b8b8b8;
-		cursor: auto;
-		box-shadow: none;
-		background: #ddd;
-	}
-	/* Modal styles */
-	.modal .modal-dialog {
-		max-width: 400px;
-	}
-	.modal .modal-header, .modal .modal-body, .modal .modal-footer {
-		padding: 20px 30px;
-	}
-	.modal .modal-content {
-		border-radius: 3px;
-	}
-	.modal .modal-footer {
-		background: #ecf0f1;
-		border-radius: 0 0 3px 3px;
-	}
-    .modal .modal-title {
-        display: inline-block;
-    }
-	.modal .form-control {
-		border-radius: 2px;
-		box-shadow: none;
-		border-color: #dddddd;
-	}
-	.modal textarea.form-control {
-		resize: vertical;
-	}
-	.modal .btn {
-		border-radius: 2px;
-		min-width: 100px;
-	}	
-	.modal form label {
-		font-weight: normal;
-	}
-    .free_shipping_alert {
-    background: #68367f;
-    color: #fff;
-    text-align: center;
-    padding: 14px;
-    font-size: 18px;
-    background-image: url(https://drnutrition.com/themes/storefront/public/images/wave.svg);
-    background-position: 50%;
-    background-size: cover;
-}
 
-.top-nav{
-    border-bottom: 1px solid #e1e1e1 ;
-    padding: 10px 0% 10px 5%;
-}
+<link rel="stylesheet" href="../css/all.css" />
 
-.top-nav .top-nav-right-list{
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-.top-nav .top-nav-right-list>li:first-child{
-    padding-left: 0;
-}
-.top-nav .top-nav-right-list>li{
-    border-right: 1px solid #e5e5e5;
-    display: inline-block;
-    padding: 0 20px;
-}
-
-.top-nav .top-nav-right-list>li>a{
-    display: block;
-    color: #191919;
-}
-</style>
 <body>
 <section class="free_shipping_alert">
         <div>Enjoy FREE SHIPPING on orders over 80 AED</div>
@@ -315,9 +66,14 @@ body {
                                 </a>
                             </li>
                             <li>
-                                <a  title="Login" data-bs-toggle="modal" data-bs-target="#exampleModal"  href="">
+                                <a  title="Login" data-bs-toggle="modal" data-bs-target="#exampleModal"  href="index.php">
                                     <i class="fa-solid fa-right-to-bracket"style="color: #68367f; margin-right: 10px;"></i>
-                                    My Account
+									<?php
+										if ($loggedIn) {
+											echo 'Welcome '.$_SESSION['username'];
+										}
+										?>
+                                </a>
                                 </a>
                             </li>
                         <li>
@@ -328,8 +84,39 @@ body {
     </div>
 </div>
 </section>
-    <div class="container">
-        <div class="table-wrapper">
+<div class="row">
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="products.php">
+                                Products
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="categories.php">
+                                Categories
+                            </a>
+                        </li>
+						<li class="nav-item">
+                            <a class="nav-link" href="brands.php">
+                                Brands
+                            </a>
+                        </li>
+						<li class="nav-item">
+                            <a class="nav-link" href="options_categories.php">
+                                Options Categories
+                            </a>
+                        </li>
+						<li class="nav-item">
+                            <a class="nav-link" href="options.php">
+                                Options
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">        <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
@@ -350,15 +137,20 @@ body {
 								<label for="selectAll"></label>
 							</span>
 						</th>
-                        <th>ID</th>
                         <th>Name</th>
 						<th>Price</th>
                         <th>Old Price</th>
+						<th>Brand Name</th>
+						<th>Categories</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
+					$categoriesQuery = "SELECT category_id, category_name FROM categories";
+					$categoriesResult = $conn->query($categoriesQuery);
+					$categories = $categoriesResult->fetch_all(MYSQLI_ASSOC);
+					$product = new Product($conn);
                     $productData = $product->getAllProductValues();
                     $allProducts = $productData['products'];
                     $productCount = $productData['count'];
@@ -370,13 +162,14 @@ body {
 								echo '<label for="checkbox'.$product['id'].'"></label>';
 							echo '</span>';
 						echo '</td>';
-                        echo '<td>'.$product['id'].'</td>' ;
                         echo'<td>'.$product['name'].'</td>';
 						echo '<td>'.$product['price'].'</td>';
 						echo '<td>'.$product['old-price'].'</td>';
-                        echo '<td>';
-                            echo '<a href="#editEmployeeModal" data-id="'.$product['id'].'" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>';
-                            echo '<a href="#deleteEmployeeModal" data-id="'.$product['id'].'"class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>';
+						echo '<td>'.$product['brand_name'].'</td>';
+						echo '<td>'.$product['categories'].'</td>';
+						echo '<td>';
+                            echo '<a href="products.php?showEditModal=1&id='.$product['id'].'" data-id="'.$product['id'].'" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>';
+                            echo '<a href="products.php?showDeleteModal=1&id='.$product['id'].'"class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>';
                         echo '</td>';
                     echo '</tr>';
                     }
@@ -397,20 +190,126 @@ body {
             </div>
         </div>
     </div>
-	<!-- Edit Modal HTML -->
-	<div id="addEmployeeModal" class="modal fade">
+		<!-- Edit Modal HTML -->
+		<div id="editEmployeeModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form method="post" action="add_product.php">
+				<form action="edit_product.php" method="POST">
+					<input type="hidden" name="edit_product_id" value="<?php echo isset($editedProduct) ? $editedProduct['id'] : ''; ?>">
 					<div class="modal-header">						
-						<h4 class="modal-title">Add Product</h4>
+						<h4 class="modal-title">Edit Product</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					</div>
-                    <div class="modal-body">					
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Title</label>
+							<input name="title" type="text" class="form-control" required value="<?php echo isset($editedProduct) ? $editedProduct['name'] : ''; ?>">
+						</div>
+						<div class="form-group">
+							<label>Price</label>
+							<input name="price"  type="text" class="form-control" required value="<?php echo isset($editedProduct) ? $editedProduct['price'] : ''; ?>">
+						</div>
+						<div class="form-group">
+							<label>Old Price</label>
+							<input name="oldPrice" type="text" class="form-control" required value="<?php echo isset($editedProduct) ? $editedProduct['old-price'] : ''; ?>">
+						</div>
+						<div class="form-group">
+							<label>Brand :</label>
+							<select name='brandID' class="form-control" required>
+								<option value="">Select a Brand</option>
+								<?php
+								$query = "SELECT brand_id, brand_name FROM brands";
+								$result = $conn->query($query);
+								if (isset($editedProduct)) {
+									$editedBrandID = $editedProduct['brand_id'];
+								} else {
+									$editedBrandID = null;
+								}
+								while ($row = $result->fetch_assoc()) {
+									$selected = ($row['brand_id'] == $editedBrandID) ? "selected" : "";
+									echo "<option " . $selected . " value='" . $row['brand_id'] . "'>" . $row['brand_name'] . "</option>";
+								}
+								?>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Categories:</label><br>
+							<?php
+							foreach ($categories as $category) {
+								echo '<label>';
+								echo '<input type="checkbox" name="categories[]" value="' . $category['category_id'] . '"';
+							
+								if (isset($selectedCategoryIDs) && in_array($category['category_id'], $selectedCategoryIDs)) {
+									echo ' checked';
+								}
+							
+								echo '> ' . $category['category_name'];
+								echo '</label><br>';
+							}
+							?>
+						</div>							
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<button type="submit" class="btn btn-info">Save</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+	<!-- Edit Modal HTML -->
+	<div id="deleteEmployeeModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+            <form action="delete_product.php" method="POST">
+			<input type="hidden" name="delete_product_id" value="<?php echo isset($_GET['id']) ? $_GET['id'] : ''; ?>">
+					<div class="modal-header">						
+						<h4 class="modal-title">Delete Product</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">
+						<p>Are you sure you want to delete these Records?</p>
+						<p class="text-warning"><small>This action cannot be undone.</small></p>
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Edit Modal HTML -->
+<div id="addEmployeeModal" class="modal fade">
+    <div class="modal-dialog" >
+        <div class="modal-content" style="width:800px">
+            <form method="post" action="add_product.php">
+			<input type="hidden" name="form_submitted" value="1">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Product</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#general">General Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#options">Product Options</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#combinations">Combinations</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="general" class="tab-pane fade show active">
 						<div class="form-group">
 							<label>ID</label>
 							<input name='id' type="text" class="form-control" required>
-						</div>
+					</div>
 						<div class="form-group">
 							<label>Name</label>
 							<input name='name' type="text" class="form-control" required>
@@ -424,84 +323,193 @@ body {
 							<input name='oldPrice' type="text" class="form-control" required>
 						</div>
                         <div class="form-group">
-							<label>Brand ID</label>
-							<input name='brandID' type="text" class="form-control" required>
+							<label>Brand :</label>
+							<select name='brandID' class="form-control" required>
+								<option value="">Select a Brand</option>
+								<?php
+								$query = "SELECT * FROM brands";
+								$result = $conn->query($query);
+								while ($row = $result->fetch_assoc()) {
+									$selected = (isset($_POST['brandID']) && $_POST['brandID'] == $row['brand_id']) ? "selected" : "";
+									echo "<option value='" . $row['brand_id'] . "'>" . $row['brand_name'] . "</option>";
+								}
+								?>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Categories:</label><br>
+							<?php
+							foreach ($categories as $category) {
+								echo '<label>';
+								echo '<input type="checkbox" name="categories[]" value="' . $category['category_id'] . '"> ' . $category['category_name'];
+								echo '</label><br>';
+							}
+							?>
 						</div>			
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-						<input type="submit" class="btn btn-success" value="Add">
-					</div>
-					<div class="modal-footer">
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- Edit Modal HTML -->
-	<div id="editEmployeeModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form action="edit_product.php?edit_product_id=<?php echo $product['id']; ?>" method="POST">
-					<div class="modal-header">						
-						<h4 class="modal-title">Edit Product</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<label>Title</label>
-							<input name="title" type="text" class="form-control" required>
+                    </div>
+                        <div id="options" class="tab-pane fade">
+                            <div class="form-group">
+                                <label>Options:</label><br>
+                                <?php
+								$queryOption = "SELECT * FROM options";
+								$result = $conn->query($queryOption);
+                                foreach ($result as $row) {
+                                    echo '<label>';
+                                    echo '<input type="checkbox" name="product_options[]" value="' . $row['id'] . '"> ' . $row['name'];
+                                    echo '</label><br>';
+                                }
+                                ?>
+                            </div>
+                        </div>
+
+						<div id="combinations" class="tab-pane fade">
+							<table id="combinationsTable" class="table">
+								<thead>
+									<th id="actionHeaderPlaceholder"></th>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
 						</div>
-						<div class="form-group">
-							<label>Price</label>
-							<input name="price"  type="text" class="form-control" required>
-						</div>
-						<div class="form-group">
-							<label>Old Price</label>
-							<input name="oldPrice" type="text" class="form-control" required>
-						</div>
-						<div class="form-group">
-							<label>Brand </label>
-							<input name="brandId" type="text" class="form-control" required>
-						</div>					
-					</div>
-					<div class="modal-footer">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-						<button type="submit" class="btn btn-info">Save</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- Delete Modal HTML -->
-	<div id="deleteEmployeeModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form >
-					<div class="modal-header">						
-						<h4 class="modal-title">Delete Product</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>
-					<div class="modal-body">
-						<p>Are you sure you want to delete these Records?</p>
-						<p class="text-warning"><small>This action cannot be undone.</small></p>
-					</div>
-					<div class="modal-footer">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-						<a href="delete_product.php?delete_product_id=<?php echo $product['id']; ?>" class="btn btn-danger delete_inside">Delete</a>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-success" value="Add">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src= "../js/mainj.js"></script>
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+
+
+	<script>
+	$(document).ready(function () {
+		var selectedOptions = [];
+		var selectElements = {};
+		selectedOptions = $('input[name="product_options[]"]:checked');
+		var combinationsTable = $('#combinationsTable');
+		var tableHead = combinationsTable.find('thead');
+		var tableBody = combinationsTable.find('tbody');
+
+		function loadOptionValues(optionID, callback) {
+			if (selectElements[optionID]) {
+				callback(selectElements[optionID]);
+			} else {
+				$.ajax({
+					url: 'fetch_option_values.php',
+					method: 'POST',
+					data: { optionID: optionID },
+					dataType: 'json',
+					success: function (response) {
+						var processedData = processData(response, optionID);
+						selectElements[optionID] = processedData;
+						callback(processedData);
+					},
+					error: function (xhr, status, error) {
+						console.error('Error fetching option values: ' + error);
+					}
+				});
+			}
+		}
+
+		function processData(response, optionID) {
+			var selectElement = '<select class="form-control" name="combinations[]" id="selectOptionValues-' + optionID + '">';
+			$.each(response, function (index, optionValue) {
+				var optionElement = '<option value="' + optionValue.id + '">' + optionValue.value_name + '</option>';
+				selectElement += optionElement;
+			});
+			selectElement += '</select>';
+			return selectElement;
+		}
+
+		function updateCombinationsTable() {
+			selectedOptions = $('input[name="product_options[]"]:checked');
+			var combinationsTable = $('#combinationsTable');
+			var tableHead = combinationsTable.find('thead');
+			var tableBody = combinationsTable.find('tbody');
+
+			tableHead.empty();
+			tableBody.empty();
+
+			if (selectedOptions.length > 0) {
+				selectedOptions.each(function () {
+					var optionID = $(this).val();
+					var optionName = $(this).closest('label').text().trim();
+					tableHead.append('<th>' + optionName + '</th>');
+				});
+
+				tableHead.append('<th>Action</th>');
+
+				if (selectedOptions.length > 0) {
+					var newRow = '<tr>';
+					selectedOptions.each(function () {
+						var optionID = $(this).val();
+						loadOptionValues(optionID, function (selectHTML) {
+							newRow += '<td>' + selectHTML + '</td>';
+							if (newRow.split('<td>').length - 1 === selectedOptions.length) {
+								newRow += '<td><button class="btn btn-success add-row"><i class="fa fa-plus"></i></button></td>';
+								newRow += '</tr>';
+								tableBody.append(newRow);
+							}
+						});
+					});
+				}
+			}
+		}
+		tableBody.on('click', '.add-row', function () {
+			var newRow = '<tr>';
+			selectedOptions.each(function () {
+				var optionID = $(this).val();
+				loadOptionValues(optionID, function (selectHTML) {
+					newRow += '<td>' + selectHTML + '</td>';
+				});
+			});
+			newRow += '<td><button class="btn btn-danger remove-row"><i class="fa fa-minus"></i></button></td>';
+			newRow += '</tr>';
+			tableBody.append(newRow);
+			return false;
+		});
+
+
+
+		tableBody.on('click', '.remove-row', function () {
+			$(this).closest('tr').remove();
+		});
+
+		$('input[name="product_options[]"]').change(function () {
+			updateCombinationsTable();
+		});
+	});
+	</script>
+
+
+<?php 
+		if(isset($_GET['showEditModal'])){
+	?>
+			<script>
+				$("#editEmployeeModal").modal('show')
+			</script>
+	<?php
+		}
+	?>
+	
+	<?php 
+		if(isset($_GET['showDeleteModal'])){
+	?>
+			<script>
+				$("#deleteEmployeeModal").modal('show')
+			</script>
+	<?php
+		}
+	?>
 </body>
 </html>
 <?php
-} else {
-    // Failed to retrieve product details
-    echo "Product not found.";
-}
 $conn->close();
 
 ?>
