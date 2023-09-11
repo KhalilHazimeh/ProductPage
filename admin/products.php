@@ -192,15 +192,29 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
     </div>
 		<!-- Edit Modal HTML -->
 		<div id="editEmployeeModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form action="edit_product.php" method="POST">
-					<input type="hidden" name="edit_product_id" value="<?php echo isset($editedProduct) ? $editedProduct['id'] : ''; ?>">
-					<div class="modal-header">						
-						<h4 class="modal-title">Edit Product</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>
-					<div class="modal-body">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:800px">
+            <form action="edit_product.php" method="POST">
+                <input type="hidden" name="edit_product_id" value="<?php echo isset($editedProduct) ? $editedProduct['id'] : ''; ?>">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Product</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#general">General Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#options">Product Options</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#combinations">Combinations</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="general" class="tab-pane fade active">
 						<div class="form-group">
 							<label>Title</label>
 							<input name="title" type="text" class="form-control" required value="<?php echo isset($editedProduct) ? $editedProduct['name'] : ''; ?>">
@@ -247,16 +261,125 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
 								echo '</label><br>';
 							}
 							?>
-						</div>							
+						</div>						                        
 					</div>
-					<div class="modal-footer">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-						<button type="submit" class="btn btn-info">Save</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+                        <div id="options" class="tab-pane fade">
+						<div class="form-group">
+                                <label>Product Options:</label><br>
+                                <?php
+                                if (isset($editedProduct)) {
+                                    $product_id = $editedProduct['id'];
+                                    $queryOption = "SELECT * FROM options";
+                                    $result = $conn->query($queryOption);
+                                    
+                                    $queryExistingValues = "SELECT option_id FROM product_options WHERE product_id = $product_id";
+                                    $resultExistingValues = $conn->query($queryExistingValues);
+                                    $existingOptionIDs = array();
+
+                                    if ($resultExistingValues->num_rows > 0) {
+                                        while ($row = $resultExistingValues->fetch_assoc()) {
+                                            $existingOptionIDs[] = $row['option_id'];
+                                        }
+                                    }
+                                    
+                                    foreach ($result as $row) {
+                                        $checked = in_array($row['id'], $existingOptionIDs) ? 'checked' : '';
+                                        echo '<label>';
+                                        echo '<input type="checkbox" name="product_options[]" value="' . $row['id'] . '" ' . $checked . '> ' . $row['name'];
+                                        echo '</label><br>';
+                                    }
+                                }
+                                ?>
+                            </div>                        
+						</div>
+                        <div id="combinations" class="tab-pane fade">
+							<?php
+							if (isset($editedProduct)) {
+								$product_id = $editedProduct['id'];
+								$queryExistingCombinations = "SELECT poc.*, o1.name AS first_option_name, o2.name AS second_option_name
+															FROM product_option_combinations poc
+															LEFT JOIN options o1 ON poc.first_option_id = o1.id
+															LEFT JOIN options o2 ON poc.second_option_id = o2.id
+															WHERE product_id = $product_id";
+
+								$resultExistingCombinations = $conn->query($queryExistingCombinations);
+								$row = $resultExistingCombinations->fetch_assoc();
+								$firstOptionName = $row['first_option_name'];
+								$secondOptionName = $row['second_option_name'];
+
+								echo '<table id="combinationsTable" class="table">';
+								echo '<thead>';
+								echo '<tr>';
+								echo '<th colspan="2">'. $firstOptionName .'</th>';
+								if (!empty($row['second_option_name'])) {
+								echo '<th>'. $secondOptionName .'</th>';
+								}
+								echo '<th id="actionHeaderPlaceholder">Action</th>';
+								echo '</tr>';
+								echo '</thead>';
+								echo '<tbody>';
+
+								$resultExistingCombinations->data_seek(0);
+								$rowCount = 0;
+								while ($row = $resultExistingCombinations->fetch_assoc()) {
+									echo '<tr>';
+									echo '<td>';
+									echo '<select class="form-control" name="combinations[' . $row['first_option_id'] . '][]">';
+							
+									// Fetch option values for the first option based on first_option_id
+									$queryOptionValues = "SELECT * FROM option_values WHERE option_id = " . $row['first_option_id'];
+									$resultOptionValues = $conn->query($queryOptionValues);
+							
+									while ($optionValue = $resultOptionValues->fetch_assoc()) {
+										$valueId = $optionValue['id'];
+										$valueName = $optionValue['value_name'];
+										$selected = ($valueId == $row['first_option_value_id']) ? 'selected' : '';
+										echo '<option value="' . $valueId . '" ' . $selected . '>' . $valueName . '</option>';
+									}
+							
+									echo '</select>';
+									echo '</td>';
+									echo '<td>';
+									if (!empty($row['second_option_name'])) {
+										echo '<select class="form-control" name="combinations[' . $row['second_option_id'] . '][]">';
+							
+										$queryOptionValues = "SELECT * FROM option_values WHERE option_id = " . $row['second_option_id'];
+										$resultOptionValues = $conn->query($queryOptionValues);
+							
+										while ($optionValue = $resultOptionValues->fetch_assoc()) {
+											$valueId = $optionValue['id'];
+											$valueName = $optionValue['value_name'];
+											$selected = ($valueId == $row['second_option_value_id']) ? 'selected' : '';
+											echo '<option value="' . $valueId . '" ' . $selected . '>' . $valueName . '</option>';
+										}
+							
+										echo '</select>';
+									} 
+
+									echo '</td>';
+									if ($rowCount === 0) {
+										echo '<td><button class="btn btn-success add-row"><i class="fa fa-plus"></i></button></td>';
+									} else {
+										echo '<td><button class="btn btn-danger remove-row"><i class="fa fa-minus"></i></button></td>';
+									}
+									
+									echo '</tr>';
+									$rowCount++;
+								}
+								echo '</tbody>';
+								echo '</table>';
+							}
+							?>
+						</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <button type="submit" class="btn btn-info">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 	<!-- Edit Modal HTML -->
 	<div id="deleteEmployeeModal" class="modal fade">
@@ -306,10 +429,6 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
 
                     <div class="tab-content">
                         <div id="general" class="tab-pane fade active">
-						<!-- <div class="form-group">
-							<label>ID</label>
-							<input name='id' type="text" class="form-control" required>
-						</div> -->
 						<div class="form-group">
 							<label>Name</label>
 							<input name='name' type="text" class="form-control" required>

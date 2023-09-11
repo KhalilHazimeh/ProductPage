@@ -111,7 +111,6 @@ public function getAllProductValues() {
 }
 
 public function addProduct($id, $name, $price, $old_price, $image, $brand_id, $selectedCategories) {
-    //$id = intval($id);
     $name = $this->conn->real_escape_string($name);
     $price = floatval($price);
     $old_price = floatval($old_price);

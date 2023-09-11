@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 09, 2023 at 09:58 PM
+-- Generation Time: Sep 11, 2023 at 12:24 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -147,9 +147,10 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `price`, `old-price`, `image`, `brand_id`) VALUES
-(1, 'Khalil Hazimeh', 1241, 121, '0', 1),
-(2, 'Lapreva Boduy Bilder', 319, 121, '0', 2),
-(3, 'Mr. Lilac', 319, 275, '0', 1);
+(1, 'Khalil Hazimeh', 1241, 121, '', 1),
+(2, 'Lapreva Boduy Bilder', 319, 121, '', 2),
+(3, 'Mr. Lilac', 319, 275, '', 1),
+(34, 'Mass Gainer', 410, 436, '', 8);
 
 -- --------------------------------------------------------
 
@@ -167,10 +168,13 @@ CREATE TABLE `product_categories` (
 --
 
 INSERT INTO `product_categories` (`product_id`, `category_id`) VALUES
+(0, 1),
 (1, 1),
 (1, 2),
 (2, 2),
-(3, 2);
+(3, 2),
+(34, 3),
+(34, 9);
 
 -- --------------------------------------------------------
 
@@ -189,12 +193,13 @@ CREATE TABLE `product_options` (
 --
 
 INSERT INTO `product_options` (`id`, `product_id`, `option_id`) VALUES
-(19, 2, 1),
-(20, 2, 2),
-(21, 1, 1),
-(22, 1, 2),
-(25, 3, 1),
-(26, 3, 2);
+(134, 34, 1),
+(136, 2, 1),
+(137, 2, 2),
+(138, 1, 1),
+(139, 1, 2),
+(140, 3, 1),
+(141, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -216,7 +221,19 @@ CREATE TABLE `product_option_combinations` (
 --
 
 INSERT INTO `product_option_combinations` (`id`, `product_id`, `first_option_id`, `first_option_value_id`, `second_option_id`, `second_option_value_id`) VALUES
-(5, 1, 1, 21, 2, 11);
+(113, 2, 1, 19, 2, 5),
+(114, 2, 1, 17, 2, 5),
+(115, 2, 1, 14, 2, 9),
+(116, 2, 1, 28, 2, 5),
+(117, 1, 1, 18, 2, 8),
+(118, 1, 1, 14, 2, 5),
+(119, 1, 1, 29, 2, 5),
+(120, 3, 1, 19, 2, 12),
+(121, 3, 1, 14, 2, 5),
+(122, 3, 1, 20, 2, 5),
+(123, 3, 1, 19, 2, 5),
+(126, 34, 1, 23, NULL, NULL),
+(127, 34, 1, 21, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -336,16 +353,22 @@ ALTER TABLE `option_values`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
 -- AUTO_INCREMENT for table `product_options`
 --
 ALTER TABLE `product_options`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
 
 --
 -- AUTO_INCREMENT for table `product_option_combinations`
 --
 ALTER TABLE `product_option_combinations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -373,21 +396,18 @@ ALTER TABLE `products`
 -- Constraints for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  ADD CONSTRAINT `product_categories_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `product_categories_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `product_categories_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `product_options`
 --
 ALTER TABLE `product_options`
-  ADD CONSTRAINT `key-2-1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `key-2-2` FOREIGN KEY (`option_id`) REFERENCES `options` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `product_option_combinations`
 --
 ALTER TABLE `product_option_combinations`
-  ADD CONSTRAINT `key-1-1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `key-1-2` FOREIGN KEY (`first_option_id`) REFERENCES `options` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `key-1-3` FOREIGN KEY (`first_option_value_id`) REFERENCES `option_values` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `key-1-4` FOREIGN KEY (`second_option_id`) REFERENCES `options` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

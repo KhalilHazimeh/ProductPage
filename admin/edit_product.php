@@ -7,58 +7,61 @@ $dbname = "logindb";
 $db = new mysqli($servername, $username, $password, $dbname);
 $product = new Product($db);
 
-$selectedCategories = isset($_POST['categories']) ? $_POST['categories'] : array();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST["title"];
 
+    $getProductIdQuery = "SELECT id FROM products WHERE name = '$name'";
+    $result = $db->query($getProductIdQuery);
 
-if (isset($_POST['edit_product_id']) && $_SERVER["REQUEST_METHOD"] == "POST") {
-    $productId = $_POST["edit_product_id"];
-    $title = $_POST["title"];
-    $price = $_POST["price"];
-    $oldPrice = $_POST["oldPrice"];
-    $brandId = $_POST["brandID"];
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $id = $row["id"];
 
-    $sql = "UPDATE products SET name=?, price=?, `old-price`=?, brand_id=? WHERE id=?";
-    $stmt = $db->prepare($sql);
-    $stmt->bind_param("ssdii", $title, $price, $oldPrice, $brandId, $productId);
+        $deleteCombinationsQuery = "DELETE FROM product_option_combinations WHERE product_id = $id";
+        $db->query($deleteCombinationsQuery);
+        $deleteOptioQuery = "DELETE FROM product_options WHERE product_id = $id";
+        $db->query($deleteOptioQuery);
 
-    if ($stmt->execute()) {
-        $deleteCategoriesQuery = "DELETE FROM product_categories WHERE product_id=?";
-        $deleteStmt = $db->prepare($deleteCategoriesQuery);
-        $deleteStmt->bind_param("i", $productId);
-        $deleteStmt->execute();
-        $deleteStmt->close();
-    
-        foreach ($selectedCategories as $categoryId) {
-            $categoryInsertQuery = "INSERT INTO product_categories (product_id, category_id) VALUES (?, ?)";
-            $categoryInsertStmt = $db->prepare($categoryInsertQuery);
-            $categoryInsertStmt->bind_param("ii", $productId, $categoryId);
-            $categoryInsertStmt->execute();
-            $categoryInsertStmt->close();
+        $price = $_POST["price"];
+        $old_price = $_POST["oldPrice"];
+        $image = ''; 
+        $brand_id = $_POST["brandID"];
+        $selectedCategories = isset($_POST['categories']) ? $_POST['categories'] : array();
+        $optionIds = isset($_POST['product_options']) ? $_POST['product_options'] : array();
+        $combinations = isset($_POST['combinations']) ? $_POST['combinations'] : array();
+        $firstOptionId = 0;
+        $secondOptionId = 0;
+
+        $updateProductQuery = "UPDATE products SET name = '$name', price = $price, `old-price` = $old_price, image = '$image', brand_id = $brand_id WHERE id = $id";
+        echo($updateProductQuery);
+        $db->query($updateProductQuery);
+
+        foreach ($optionIds as $key => $optionId) {
+            if ($key == 0) {
+                $firstOptionId = $optionId;
+            }
+            if ($key == 1) {
+                $secondOptionId = $optionId;
+            }
+            $updateOptionQuery = "INSERT INTO product_options (product_id, option_id) VALUES($id, $optionId)";
+            $db->query($updateOptionQuery);
         }
 
-        $sizes = explode(',', $_POST['sizes']);
+        for ($i = 0; $i < count($combinations[$firstOptionId]); $i++) {
+            $firstOptionValueId = (int)$combinations[$firstOptionId][$i];
+            $secondOptionValueId = 'Null';
+            if (isset($combinations[$secondOptionId][$i])) {
+                $secondOptionValueId = (int)$combinations[$secondOptionId][$i];
+            }
 
-        $deleteSizesQuery = "DELETE FROM sizes WHERE product_id=?";
-        $deleteSizesStmt = $db->prepare($deleteSizesQuery);
-        $deleteSizesStmt->bind_param("i", $productId);
-        $deleteSizesStmt->execute();
-        $deleteSizesStmt->close();
-
-        foreach ($sizes as $size) {
-            $sizeInsertQuery = "INSERT INTO sizes (size, product_id) VALUES (?, ?)";
-            $sizeInsertStmt = $db->prepare($sizeInsertQuery);
-            $sizeInsertStmt->bind_param("is", $size , $productId);
-            $sizeInsertStmt->execute();
-            $sizeInsertStmt->close();
+            $insertCombinationQuery = "INSERT INTO product_option_combinations (product_id, first_option_id, first_option_value_id, second_option_id, second_option_value_id) VALUES ($id, $firstOptionId, $firstOptionValueId, $secondOptionId, $secondOptionValueId)";
+            $db->query($insertCombinationQuery);
         }
-    
-        $db->close();
-        header("Location:products.php");
-        exit();
+
+        header("Location: products.php");
+        exit;
     } else {
-        $stmt->close();
-        $db->close();
-        echo "Error";
+        echo "Product not found.";
     }
 }
 ?>
