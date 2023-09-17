@@ -198,7 +198,7 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
                 <div class="modal-body">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#general">General Info</a>
+                            <a class="nav-link active" data-toggle="tab" href="#general-edit">General Info</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#options">Product Options</a>
@@ -209,7 +209,7 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
                     </ul>
 
                     <div class="tab-content">
-                        <div id="general" class="tab-pane fade active">
+                        <div id="general-edit" class="tab-pane fade active">
 						<div class="form-group">
 							<label>Title</label>
 							<input name="title" type="text" class="form-control" required value="<?php echo isset($editedProduct) ? $editedProduct['name'] : ''; ?>">
@@ -411,7 +411,7 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
                 <div class="modal-body">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#general">General Info</a>
+                            <a class="nav-link active" data-toggle="tab" href="#general-add">General Info</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#options">Product Options</a>
@@ -421,7 +421,7 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div id="general" class="tab-pane fade active">
+                        <div id="general-add" class="tab-pane fade active">
 						<div class="form-group">
 							<label>Name</label>
 							<input name='name' type="text" class="form-control" required>
