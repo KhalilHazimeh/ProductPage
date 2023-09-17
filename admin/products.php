@@ -40,158 +40,153 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
 
 <body>
 <section class="free_shipping_alert">
-        <div>Enjoy FREE SHIPPING on orders over 80 AED</div>
-    </section>
-    <section class="top-nav-bar">
-            <div class="top-nav">
-                <div class="row justify-content-between">
-                    <div class="col-lg-6">
-                    <div class="top-nav-left d-none d-lg-block">
-                        <span>Dr Nutrition UAE</span>
-                    </div>
-                    </div>
-                    <div class="col-lg-6">
-                    <div class="top-nav-right">
-                        <ul class="list-inline top-nav-right-list">
-                            <li>
-                                <a title="Contact" href="#">
-                                    <i class="fa-solid fa-phone" style="color: #68367f; margin-right: 10px;"></i>
-                                    Contact
-                                </a>
-                            </li>
-                            <li>
-                                <a title="AED" href="">
-                                    <i class="fa-solid fa-money-bill " style="color: #68367f; margin-right: 10px;"></i>
-                                    AED
-                                </a>
-                            </li>
-                            <li>
-                                <a  title="Login" data-bs-toggle="modal" data-bs-target="#exampleModal"  href="index.php">
-                                    <i class="fa-solid fa-right-to-bracket"style="color: #68367f; margin-right: 10px;"></i>
-									<?php
-										if ($loggedIn) {
-											echo 'Welcome '.$_SESSION['username'];
-										}
-										?>
-                                </a>
-                                </a>
-                            </li>
+    <div>Enjoy FREE SHIPPING on orders over 80 AED</div>
+</section>
+<section class="top-nav-bar">
+    <div class="top-nav">
+        <div class="row justify-content-between">
+            <div class="col-lg-6">
+                <div class="top-nav-left d-none d-lg-block">
+                    <span>Dr Nutrition UAE</span>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="top-nav-right">
+                    <ul class="list-inline top-nav-right-list">
                         <li>
+                            <a title="Contact" href="#">
+                                <i class="fa-solid fa-phone" style="color: #68367f; margin-right: 10px;"></i>
+                                Contact
+                            </a>
+                        </li>
+                        <li>
+                            <a title="AED" href="">
+                                <i class="fa-solid fa-money-bill " style="color: #68367f; margin-right: 10px;"></i>
+                                AED
+                            </a>
+                        </li>
+                        <li>
+                            <a title="Login" data-bs-toggle="modal" data-bs-target="#exampleModal" href="index.php">
+                                <i class="fa-solid fa-right-to-bracket" style="color: #68367f; margin-right: 10px;"></i>
+                                <?php
+                                if ($loggedIn) {
+                                    echo 'Welcome '.$_SESSION['username'];
+                                }
+                                ?>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </section>
 <div class="row">
-            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
-                <div class="position-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="products.php">
-                                Products
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="categories.php">
-                                Categories
-                            </a>
-                        </li>
-						<li class="nav-item">
-                            <a class="nav-link" href="brands.php">
-                                Brands
-                            </a>
-                        </li>
-						<li class="nav-item">
-                            <a class="nav-link" href="options_categories.php">
-                                Options Categories
-                            </a>
-                        </li>
-						<li class="nav-item">
-                            <a class="nav-link" href="options.php">
-                                Options
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">        <div class="table-wrapper">
+    <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+        <div class="position-sticky">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="products.php">
+                        Products
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="categories.php">
+                        Categories
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="brands.php">
+                        Brands
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="options_categories.php">
+                        Options Categories
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="options.php">
+                        Options
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-						<h2>Manage <b>Employees</b></h2>
-					</div>
-					<div class="col-sm-6">
-						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Product</span></a>
-						<a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete All Products</span></a>						
-					</div>
+                        <h2>Manage <b>Employees</b></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Product</span></a>
+                        <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete All Products</span></a>
+                    </div>
                 </div>
             </div>
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-						<th>
-							<span class="custom-checkbox">
-								<input type="checkbox" id="selectAll">
-								<label for="selectAll"></label>
-							</span>
-						</th>
+                        <th>
+                            <span class="custom-checkbox">
+                                <input type="checkbox" id="selectAll">
+                                <label for="selectAll"></label>
+                            </span>
+                        </th>
                         <th>Name</th>
-						<th>Price</th>
+                        <th>Price</th>
                         <th>Old Price</th>
-						<th>Brand Name</th>
-						<th>Categories</th>
+                        <th>Brand Name</th>
+                        <th>Categories</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-					$categoriesQuery = "SELECT category_id, category_name FROM categories";
-					$categoriesResult = $conn->query($categoriesQuery);
-					$categories = $categoriesResult->fetch_all(MYSQLI_ASSOC);
-					$product = new Product($conn);
+                    $categoriesQuery = "SELECT category_id, category_name FROM categories";
+                    $categoriesResult = $conn->query($categoriesQuery);
+                    $categories = $categoriesResult->fetch_all(MYSQLI_ASSOC);
+                    $product = new Product($conn);
                     $productData = $product->getAllProductValues();
                     $allProducts = $productData['products'];
                     $productCount = $productData['count'];
                     foreach ($allProducts as $product){
-						echo '<tr id="' .$product['id']. '">';
-						echo '<td>';
+                        echo '<tr id="' .$product['id']. '">';
+                        echo '<td>';
                         echo '<span class="custom-checkbox">';
                         echo '<input type="checkbox" id="checkbox'.$product['id'].'" name="options[]" value="1">';
-								echo '<label for="checkbox'.$product['id'].'"></label>';
-							echo '</span>';
-						echo '</td>';
-                        echo'<td>'.$product['name'].'</td>';
-						echo '<td>'.$product['price'].'</td>';
-						echo '<td>'.$product['old-price'].'</td>';
-						echo '<td>'.$product['brand_name'].'</td>';
-						echo '<td>'.$product['categories'].'</td>';
-						echo '<td>';
-                            echo '<a href="products.php?showEditModal=1&id='.$product['id'].'" data-id="'.$product['id'].'" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>';
-                            echo '<a href="products.php?showDeleteModal=1&id='.$product['id'].'"class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>';
+                        echo '<label for="checkbox'.$product['id'].'"></label>';
+                        echo '</span>';
                         echo '</td>';
-                    echo '</tr>';
+                        echo'<td>'.$product['name'].'</td>';
+                        echo '<td>'.$product['price'].'</td>';
+                        echo '<td>'.$product['old-price'].'</td>';
+                        echo '<td>'.$product['brand_name'].'</td>';
+                        echo '<td>'.$product['categories'].'</td>';
+                        echo '<td>';
+                        echo '<a href="products.php?showEditModal=1&id='.$product['id'].'" data-id="'.$product['id'].'" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>';
+                        echo '<a href="products.php?showDeleteModal=1&id='.$product['id'].'" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>';
+                        echo '</td>';
+                        echo '</tr>';
                     }
                     ?>
                 </tbody>
             </table>
-			<div class="clearfix">
+            <div class="clearfix">
                 <div class="hint-text">Showing <b><?php echo $productCount?></b> out of <b><?php echo $productCount?></b> entries</div>
                 <ul class="pagination">
                     <li class="page-item disabled"><a href="#">Previous</a></li>
                     <li class="page-item active"><a href="#" class="page-link">1</a></li>
                     <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item "><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
                     <li class="page-item"><a href="#" class="page-link">Next</a></li>
                 </ul>
             </div>
         </div>
-    </div>
-		<!-- Edit Modal HTML -->
-		<div id="editEmployeeModal" class="modal fade">
+    </main>
+</div>
+<div id="editEmployeeModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content" style="width:800px">
             <form action="edit_product.php" method="POST">
@@ -314,7 +309,7 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
 								if (!empty($row['second_option_name'])) {
 								echo '<th>'. $secondOptionName .'</th>';
 								}
-								echo '<th id="actionHeaderPlaceholder">Action</th>';
+								echo '<th id="actionHeaderPlaceholder"></th>';
 								echo '</tr>';
 								echo '</thead>';
 								echo '<tbody>';
@@ -324,7 +319,7 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
 								while ($row = $resultExistingCombinations->fetch_assoc()) {
 									echo '<tr>';
 									echo '<td>';
-									echo '<select class="form-control" name="combinations[' . $row['first_option_id'] . '][]">';
+									echo '<select class="form-control" name="combinations[' . $row['first_option_id'] . '][]" id="selectOptionValues-' . $row['first_option_id'] .'">';
 							
 									// Fetch option values for the first option based on first_option_id
 									$queryOptionValues = "SELECT * FROM option_values WHERE option_id = " . $row['first_option_id'];
@@ -341,7 +336,7 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
 									echo '</td>';
 									echo '<td>';
 									if (!empty($row['second_option_name'])) {
-										echo '<select class="form-control" name="combinations[' . $row['second_option_id'] . '][]">';
+										echo '<select class="form-control" name="combinations[' . $row['second_option_id'] . '][]" id="selectOptionValues-' . $row['first_option_id'] .'">';
 							
 										$queryOptionValues = "SELECT * FROM option_values WHERE option_id = " . $row['second_option_id'];
 										$resultOptionValues = $conn->query($queryOptionValues);
@@ -381,30 +376,29 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
         </div>
     </div>
 </div>
-	<!-- Edit Modal HTML -->
-	<div id="deleteEmployeeModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-            <form action="delete_product.php" method="POST">
-			<input type="hidden" name="delete_product_id" value="<?php echo isset($_GET['id']) ? $_GET['id'] : ''; ?>">
-					<div class="modal-header">						
-						<h4 class="modal-title">Delete Product</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>
-					<div class="modal-body">
-						<p>Are you sure you want to delete these Records?</p>
-						<p class="text-warning"><small>This action cannot be undone.</small></p>
-					</div>
-					<div class="modal-footer">
-						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-					</div>
-				</form>
-			</div>
+
+<div id="deleteEmployeeModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		<form action="delete_product.php" method="POST">
+		<input type="hidden" name="delete_product_id" value="<?php echo isset($_GET['id']) ? $_GET['id'] : ''; ?>">
+				<div class="modal-header">						
+					<h4 class="modal-title">Delete Product</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<p>Are you sure you want to delete these Records?</p>
+					<p class="text-warning"><small>This action cannot be undone.</small></p>
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+					<button type="submit" class="btn btn-danger">Delete</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
-<!-- Edit Modal HTML -->
+
 <div id="addEmployeeModal" class="modal fade">
     <div class="modal-dialog" >
         <div class="modal-content" style="width:800px">
@@ -426,7 +420,6 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
                             <a class="nav-link" data-toggle="tab" href="#combinations">Combinations</a>
                         </li>
                     </ul>
-
                     <div class="tab-content">
                         <div id="general" class="tab-pane fade active">
 						<div class="form-group">
@@ -499,134 +492,142 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
         </div>
     </div>
 </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-	<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
 
-	<script>
-	$(document).ready(function () {
-		$(".nav-link.active").click()
-		var selectedOptions = [];
-		var selectElements = {};
+<script>
+$(document).ready(function () {
+	$(".nav-link.active").click()
+	var selectedOptions = [];
+	var selectElements = {};
+	selectedOptions = $('input[name="product_options[]"]:checked');
+	var combinationsTable = $('#combinationsTable');
+	var tableHead = combinationsTable.find('thead');
+	var tableBody = combinationsTable.find('tbody');
+
+	function loadOptionValues(optionID, callback) {
+		if (selectElements[optionID]) {
+			callback(selectElements[optionID]);
+		} else {
+			$.ajax({
+				url: 'fetch_option_values.php',
+				method: 'POST',
+				data: { optionID: optionID },
+				dataType: 'json',
+				success: function (response) {
+					var selectElementGenerated = generateSelectElement(response, optionID);
+					selectElements[optionID] = selectElementGenerated;
+					callback(selectElementGenerated);
+				},
+				error: function (xhr, status, error) {
+					console.error('Error fetching option values: ' + error);
+				}
+			});
+		}
+	}
+
+	function generateSelectElement(response, optionID) {
+		var selectElement = '<select class="form-control" name="combinations['+optionID+'][]" id="selectOptionValues-' + optionID + '">';
+		$.each(response, function (index, optionValue) {
+			var optionElement = '<option value="' + optionValue.id + '">' + optionValue.value_name + '</option>';
+			selectElement += optionElement;
+		});
+		selectElement += '</select>';
+		return selectElement;
+	}
+
+	function updateCombinationsTable() {
 		selectedOptions = $('input[name="product_options[]"]:checked');
 		var combinationsTable = $('#combinationsTable');
 		var tableHead = combinationsTable.find('thead');
 		var tableBody = combinationsTable.find('tbody');
 
-		function loadOptionValues(optionID, callback) {
-			if (selectElements[optionID]) {
-				callback(selectElements[optionID]);
-			} else {
-				$.ajax({
-					url: 'fetch_option_values.php',
-					method: 'POST',
-					data: { optionID: optionID },
-					dataType: 'json',
-					success: function (response) {
-						var selectElementGenerated = generateSelectElement(response, optionID);
-						selectElements[optionID] = selectElementGenerated;
-						callback(selectElementGenerated);
-					},
-					error: function (xhr, status, error) {
-						console.error('Error fetching option values: ' + error);
-					}
-				});
-			}
-		}
+		tableHead.empty();
+		tableBody.empty();
 
-		function generateSelectElement(response, optionID) {
-			var selectElement = '<select class="form-control" name="combinations['+optionID+'][]" id="selectOptionValues-' + optionID + '">';
-			$.each(response, function (index, optionValue) {
-				var optionElement = '<option value="' + optionValue.id + '">' + optionValue.value_name + '</option>';
-				selectElement += optionElement;
-			});
-			selectElement += '</select>';
-			return selectElement;
-		}
-
-		function updateCombinationsTable() {
-			selectedOptions = $('input[name="product_options[]"]:checked');
-			var combinationsTable = $('#combinationsTable');
-			var tableHead = combinationsTable.find('thead');
-			var tableBody = combinationsTable.find('tbody');
-
-			tableHead.empty();
-			tableBody.empty();
-
-			if (selectedOptions.length > 0) {
-				selectedOptions.each(function () {
-					var optionID = $(this).val();
-					var optionName = $(this).closest('label').text().trim();
-					tableHead.append('<th>' + optionName + '</th>');
-				});
-
-				tableHead.append('<th>Action</th>');
-
-				if (selectedOptions.length > 0) {
-					var newRow = '<tr>';
-					selectedOptions.each(function () {
-						var optionID = $(this).val();
-						loadOptionValues(optionID, function (selectHTML) {
-							newRow += '<td>' + selectHTML + '</td>';
-							if (newRow.split('<td>').length - 1 === selectedOptions.length) {
-								newRow += '<td><button class="btn btn-success add-row"><i class="fa fa-plus"></i></button></td>';
-								newRow += '</tr>';
-								tableBody.append(newRow);
-							}
-						});
-					});
-				}
-			}
-		}
-		tableBody.on('click', '.add-row', function () {
-			var newRow = '<tr>';
+		if (selectedOptions.length > 0) {
 			selectedOptions.each(function () {
 				var optionID = $(this).val();
+				var optionName = $(this).closest('label').text().trim();
+				tableHead.append('<th>' + optionName + '</th>');
+			});
+
+			tableHead.append('<th>Action</th>');
+
+			if (selectedOptions.length > 0) {
+				var newRow = '<tr>';
+				selectedOptions.each(function () {
+					var optionID = $(this).val();
+					loadOptionValues(optionID, function (selectHTML) {
+						newRow += '<td>' + selectHTML + '</td>';
+						if (newRow.split('<td>').length - 1 === selectedOptions.length) {
+							newRow += '<td><button class="btn btn-success add-row"><i class="fa fa-plus"></i></button></td>';
+							newRow += '</tr>';
+							tableBody.append(newRow);
+						}
+					});
+				});
+			}
+		}
+	}
+	tableBody.on('click', '.add-row', function () {
+		var newRow = '<tr>';
+		var promises = [];
+
+		selectedOptions.each(function () {
+			var optionID = $(this).val();
+			var promise = new Promise(function (resolve) {
 				loadOptionValues(optionID, function (selectHTML) {
 					newRow += '<td>' + selectHTML + '</td>';
+					resolve();
 				});
 			});
+			promises.push(promise);
+		});
+
+		Promise.all(promises).then(function () {
 			newRow += '<td><button class="btn btn-danger remove-row"><i class="fa fa-minus"></i></button></td>';
 			newRow += '</tr>';
 			tableBody.append(newRow);
-			return false;
 		});
 
-
-
-		tableBody.on('click', '.remove-row', function () {
-			$(this).closest('tr').remove();
-		});
-
-		$('input[name="product_options[]"]').change(function () {
-			updateCombinationsTable();
-		});
+		return false;
 	});
-	</script>
+
+
+	tableBody.on('click', '.remove-row', function () {
+		$(this).closest('tr').remove();
+	});
+
+	$('input[name="product_options[]"]').change(function () {
+		updateCombinationsTable();
+	});
+});
+</script>
 
 
 <?php 
-		if(isset($_GET['showEditModal'])){
-	?>
-			<script>
-				$("#editEmployeeModal").modal('show')
-			</script>
-	<?php
-		}
-	?>
-	
-	<?php 
-		if(isset($_GET['showDeleteModal'])){
-	?>
-			<script>
-				$("#deleteEmployeeModal").modal('show')
-			</script>
-	<?php
-		}
-	?>
+	if(isset($_GET['showEditModal'])){
+?>
+		<script>
+			$("#editEmployeeModal").modal('show')
+		</script>
+<?php
+	}
+?>
+
+<?php 
+	if(isset($_GET['showDeleteModal'])){
+?>
+		<script>
+			$("#deleteEmployeeModal").modal('show')
+		</script>
+<?php
+	}
+?>
 </body>
 </html>
 <?php
