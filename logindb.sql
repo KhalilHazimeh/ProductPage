@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 17, 2023 at 11:49 AM
+-- Generation Time: Sep 21, 2023 at 07:34 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -147,9 +147,9 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `price`, `old-price`, `image`, `brand_id`) VALUES
-(1, 'Khalil Hazimeh', 1241, 121, '', 1),
-(2, 'Lapreva Boduy Bilder', 319, 121, '', 2),
-(3, 'Mr. Lilac', 319, 275, '', 1),
+(1, 'Khalil Hazimeh', 1241, 121, 'images\\BsPIf08zG9TFDvJkgT75QEUHpDiq1CGxMxdv1ujM.jpg', 1),
+(2, 'Lapreva Boduy Bilder', 319, 121, 'images\\cbQSvFiAo9zMDGSZVZaeVBXnufColeuYiRzMtwce.jpg', 2),
+(3, 'Mr. Lilac', 319, 312, 'images\\nwGM1Rzm9Q8rtxuSEi0buHcjfBmhz077VyzROqoC.png', 8),
 (34, 'Mass Gainer', 410, 436, '', 8);
 
 -- --------------------------------------------------------
@@ -174,7 +174,12 @@ INSERT INTO `product_categories` (`product_id`, `category_id`) VALUES
 (2, 2),
 (3, 2),
 (34, 3),
-(34, 9);
+(34, 9),
+(35, 2),
+(35, 3),
+(36, 1),
+(37, 1),
+(37, 2);
 
 -- --------------------------------------------------------
 
@@ -193,13 +198,12 @@ CREATE TABLE `product_options` (
 --
 
 INSERT INTO `product_options` (`id`, `product_id`, `option_id`) VALUES
-(134, 34, 1),
 (136, 2, 1),
 (137, 2, 2),
 (138, 1, 1),
 (139, 1, 2),
-(140, 3, 1),
-(141, 3, 2);
+(148, 3, 1),
+(151, 34, 1);
 
 -- --------------------------------------------------------
 
@@ -228,12 +232,7 @@ INSERT INTO `product_option_combinations` (`id`, `product_id`, `first_option_id`
 (117, 1, 1, 18, 2, 8),
 (118, 1, 1, 14, 2, 5),
 (119, 1, 1, 29, 2, 5),
-(120, 3, 1, 19, 2, 12),
-(121, 3, 1, 14, 2, 5),
-(122, 3, 1, 20, 2, 5),
-(123, 3, 1, 19, 2, 5),
-(126, 34, 1, 23, NULL, NULL),
-(127, 34, 1, 21, NULL, NULL);
+(140, 34, 1, 15, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -356,19 +355,19 @@ ALTER TABLE `option_values`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `product_options`
 --
 ALTER TABLE `product_options`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
 
 --
 -- AUTO_INCREMENT for table `product_option_combinations`
 --
 ALTER TABLE `product_option_combinations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -201,10 +201,10 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
                             <a class="nav-link active" data-toggle="tab" href="#general-edit">General Info</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#options">Product Options</a>
+                            <a class="nav-link" data-toggle="tab" href="#options-edit">Product Options</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#combinations">Combinations</a>
+                            <a class="nav-link" data-toggle="tab" href="#combinations-edit">Combinations</a>
                         </li>
                     </ul>
 
@@ -258,7 +258,7 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
 							?>
 						</div>						                        
 					</div>
-                        <div id="options" class="tab-pane fade">
+                        <div id="options-edit" class="tab-pane fade">
 						<div class="form-group">
                                 <label>Product Options:</label><br>
                                 <?php
@@ -287,7 +287,7 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
                                 ?>
                             </div>                        
 						</div>
-                        <div id="combinations" class="tab-pane fade">
+                        <div id="combinations-edit" class="tab-pane fade">
 							<?php
 							if (isset($editedProduct)) {
 								$product_id = $editedProduct['id'];
@@ -300,8 +300,9 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
 								$resultExistingCombinations = $conn->query($queryExistingCombinations);
 								$row = $resultExistingCombinations->fetch_assoc();
 								$firstOptionName = $row['first_option_name'];
+								if (!empty($row['second_option_name'])) {
 								$secondOptionName = $row['second_option_name'];
-
+								}
 								echo '<table id="combinationsTable" class="table">';
 								echo '<thead>';
 								echo '<tr>';
@@ -414,10 +415,10 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
                             <a class="nav-link active" data-toggle="tab" href="#general-add">General Info</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#options">Product Options</a>
+                            <a class="nav-link" data-toggle="tab" href="#options-add">Product Options</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#combinations">Combinations</a>
+                            <a class="nav-link" data-toggle="tab" href="#combinations-add">Combinations</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -459,7 +460,7 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
 							?>
 						</div>			
                     </div>
-                        <div id="options" class="tab-pane fade">
+                        <div id="options-add" class="tab-pane fade">
                             <div class="form-group">
                                 <label>Options:</label><br>
                                 <?php
@@ -474,7 +475,7 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
                             </div>
                         </div>
 
-						<div id="combinations" class="tab-pane fade">
+						<div id="combinations-add" class="tab-pane fade">
 							<table id="combinationsTable" class="table">
 								<thead>
 									<th id="actionHeaderPlaceholder"></th>

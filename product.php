@@ -23,16 +23,7 @@ class Product {
 
         if ($result && $result->num_rows > 0) {
             return $result->fetch_assoc();
-            // $row = $result->fetch_assoc();
-            // $this->name = $row['name'];
-            // $this->price = $row['price'];
-            // $this->old_price = $row['old-price'];
-            // $this->image = $row['image'];
-            // $this->brand_id = $row['brand_id'];
-            // $this->brand_name = $row['brand_name'];
-            // return true;
         }
-
         return false;
         }
 
@@ -54,38 +45,6 @@ public function getProductCategories($id){
     return $categoryNames;
 }
 
-
-public function getProductSizes($id) {
-    $query = "SELECT size_id,size FROM sizes WHERE product_id = $id";
-    $result = $this->conn->query($query);
-
-    $sizes = [];
-
-    if ($result && $result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $sizes[$row['size_id']] = $row['size'];
-        }
-    }
-
-    return $sizes;
-}
-
-public function getProductFlavors($id) {
-    $query = "SELECT sizes.size_id, flavor_id, flavor FROM falvors
-    INNER JOIN sizes ON falvors.size_id = sizes.size_id
-    INNER JOIN products ON sizes.product_id = products.id
-    WHERE products.id = $id";
-    $result = $this->conn->query($query);
-
-    $flavors = [];
-    if ($result && $result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $flavors[$row['flavor_id'].":".$row['size_id']] = $row['flavor'];
-        }
-    }
-    return $flavors;
-
-}
 public function getAllProductValues() {
 
     $query = "SELECT p.id, p.name, p.price, p.`old-price`, b.brand_name,
@@ -177,40 +136,20 @@ public function deleteAllProduct() {
     }
 }
 
-// Inside your Product class
-public function getProductWithSizesAndFlavors($productId) {
-    $productQuery = "SELECT * FROM products WHERE id = $productId";
-    $productResult = $this->conn->query($productQuery);
-    
-    if ($productResult->num_rows > 0) {
-        $productData = $productResult->fetch_assoc();
-        
-        $sizesQuery = "SELECT size_id, size FROM sizes WHERE product_id = $productId";
-        $sizesResult = $this->conn->query($sizesQuery);
-        $sizes = array();
-        
-        while ($sizeRow = $sizesResult->fetch_assoc()) {
-            $sizeId = $sizeRow['size_id'];
-            
-            $flavorsQuery = "SELECT flavor FROM falvors WHERE size_id = $sizeId";
-            $flavorsResult = $this->conn->query($flavorsQuery);
-            $flavors = array();
-            
-            while ($flavorRow = $flavorsResult->fetch_assoc()) {
-                $flavors[] = $flavorRow['flavor'];
-            }
-            
-            $sizeRow['flavors'] = $flavors;
-            $sizes[] = $sizeRow;
+function getProductOptionIDs($product_id) {
+    $query = "SELECT option_id FROM product_options WHERE product_id = $product_id";
+    $optionIDs = array();
+    $result = mysqli_query($conn, $query);
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $optionIDs[] = $row['option_id'];
         }
-        
-        $productData['sizes'] = $sizes;
-        return $productData;
     } else {
-        return false;
+        echo "Query failed: " . mysqli_error($conn);
     }
-}
 
+    return $optionIDs;
+}
 
 }
 class Brand{

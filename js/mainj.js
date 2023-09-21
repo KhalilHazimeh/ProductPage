@@ -41,8 +41,8 @@ function updatePrice(counter){
 }
 
 $(document).ready(function() {
-    var activeSizeDataId = $("#sizeList li.active").attr("data-id");
-    $(".flavor").each(function() {
+    var activeSizeDataId = $("#optionList li.active").attr("data-id");
+    $(".option1").each(function() {
         var flavorDataSize = $(this).attr("data-size");
         if (flavorDataSize === activeSizeDataId) {
             $(this).removeClass("hidden");
@@ -54,114 +54,20 @@ $(document).ready(function() {
 
 
 //Change the active state on click
-$('.option').click(function(){
-    $('.option').removeClass("active");
+$('.option1').click(function(){
+    $('.option1').removeClass("active");
     $(this).addClass("active");
-    var activeSizeDataId = $("#sizeList li.active").attr("data-id");
-    $(".flavor").each(function() {
-        var flavorDataSize = $(this).attr("data-size");
-        if (flavorDataSize === activeSizeDataId) {
-            $(this).removeClass("hidden");
-            //$(".flavor").addClass("active");
-        } else {
-            $(this).addClass("hidden");
-            
-        }
-    });
     $("input[name=size]").val($(this).text());
 });
 
 //change flavors ready state
-$('.flavor').click(function(){
-    $('.flavor').removeClass("active");
+$('.option2').click(function(){
+    $('.option2').removeClass("active");
     $(this).addClass("active")
     $("input[name=flavor]").val($(this).text())
 } )
 
 
-
-/*function addToCart(productID) {
-    
-    var activeSize = $("#sizeList li.active");
-    var activeFlavor = $("#flavorList li.active");
-    var activeQuantity = $("#counter");
-
-
-    var activeSizeText = activeSize ? activeSize.text() : 'No active size selected';
-    var activeFlavorText = activeFlavor ? activeFlavor.text() : 'No active flavor selected';
-    var activeQuantityText= activeQuantity ? activeQuantity.text() : 'No quantity chosen';
-
-
-    var alertMessage = 'Active Size: ' + activeSizeText + '\nActive Flavor: ' + activeFlavorText + '\nActive Quantity: ' + activeQuantityText ;
-    alert(alertMessage);
-    
-    const product = {
-        id: productID, 
-        name: $("#product-title").text(),    
-        price: originalPrice.textContent,          
-        quantity : activeQuantityText,
-        size: activeSizeText,
-        flavor: activeFlavorText
-    };
-
-    var form = document.createElement('form');
-            form.method = 'post';
-            form.action = 'store_product.php';
-
-
-
-            var inputProductName = document.createElement('input');
-            inputProductName.type = 'hidden';
-            inputProductName.name = 'product_name';
-            inputProductName.value = $("#product-title").text();
-            form.appendChild(inputProductName);
-
-            var inputPrice = document.createElement('input');
-            inputPrice.type = 'hidden';
-            inputPrice.name = 'price';
-            inputPrice.value = originalPrice.textContent;
-            form.appendChild(inputPrice);
-
-            var inputQuantity = document.createElement('input');
-            inputQuantity.type = 'hidden';
-            inputQuantity.name = 'quantity';
-            inputQuantity.value = activeQuantityText;
-            form.appendChild(inputQuantity);
-
-            var inputSize = document.createElement('input');
-            inputSize.type = 'hidden';
-            inputSize.name = 'size';
-            inputSize.value = activeSizeText;
-            form.appendChild(inputSize);
-
-            var inputFlavor = document.createElement('input');
-            inputFlavor.type = 'hidden';
-            inputFlavor.name = 'flavor';
-            inputFlavor.value = activeFlavorText;
-            form.appendChild(inputFlavor);
-
-            document.body.appendChild(form);
-            form.submit();
-}*/
-
-
-
-/*function displaySelectedItems() {
-    const selectedItemsDisplay = document.getElementById('offcanvas-body');
-    const storedSelectedProducts = getUserSelectionsFromLocalStorage();
-
-    let innerHTML = '<ul>';
-    storedSelectedProducts.forEach((product) => {
-    innerHTML += `<h4>${product.name} </h4>`;
-    innerHTML += `<li>Price: $${product.price} </li>`;
-    innerHTML += `<li>Size: ${product.size}</li>`;
-    innerHTML += `<li>Quantity: $${product.quantity}</li>`;
-    innerHTML += `<li>Flavor: $${product.flavor}</li>`;
-    });
-    innerHTML += '</ul>';
-
-    selectedItemsDisplay.innerHTML = innerHTML;
-}*/
 
 
 $(document).ready(function() {
@@ -214,13 +120,13 @@ function updateOffCanvasCart() {
             if (data.cartItems.length > 0) {
                 cartHtml += '<div class="cart-items">';
                 data.cartItems.forEach(function(item, index) {
-                cartHtml += '<div class="item" id="item-' + index + '">';
+                cartHtml += '<div class="item" id="item-' + item.Product_Id + '">';
                 cartHtml += '<p>Name: ' + item.Product_Name + '</p>';
                 cartHtml += '<p>Size: ' + item.Product_Size + '</p>';
                 cartHtml += '<p>Quantity: ' + item.Product_Quantity + '</p>';
                 cartHtml += '<p>Flavor: ' + item.Product_Flavor + '</p>';
                 cartHtml += '<p>Price: $' + item.Product_Price + '</p>';
-                cartHtml += '<button type="button" class="btn-add-to-cart remove-item" data-id="' + index + '">Remove Item</button>';
+                cartHtml += '<button type="button" class="btn-add-to-cart remove-item" data-id="' + item.Product_Id + '">Remove Item</button>';
                 cartHtml += '<hr>';
                 cartHtml += '</div>';
                 });
@@ -245,26 +151,55 @@ openNavBtn.on('click', function () {
 
 
 $(document).ready(function() {
-    $('#offcanvas-cart').on('click', '.remove-item', function(data) {
-        var item_id = $(this).data('id');
-        $.post('remove_item.php', { item_id: item_id }, function(data) {
-            if (data.status === 'success') {
-                $('#item-' + item_id).remove();
+    $('#offcanvas-cart').on('click', '.remove-item', function() {
+        var product_id = $(this).data('id');
+        console.log('Remove button clicked for product ID:', product_id);
+
+        $.ajax({
+            url: 'remove_item.php',
+            type: 'POST',
+            data: { product_id: product_id },
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+                if (data.status === 'success') {
+                    $('#item-' + product_id).remove();
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('AJAX Error: ' + textStatus, errorThrown);
             }
         });
     });
 });
 
-$(document).ready(function () {
-    $("#selectAll").click(function () {
-        $(".checkbox").prop("checked", this.checked);
-    });
 
-    $(".checkbox").click(function () {
-        if ($(".checkbox").length == $(".checkbox:checked").length) {
-            $("#selectAll").prop("checked", true);
-        } else {
-            $("#selectAll").prop("checked", false);
-        }
+$(document).ready(function() {
+    $(".option1").click(function() {
+        var valueId = $(this).data("id");
+        
+
+        $.ajax({
+            url: "get_second_option_values.php", 
+            type: "POST",
+            data: { valueId: valueId, product_id: productId },
+            success: function(data) {
+                console.log(data)
+                var secondOptionValues = JSON.parse(data);
+
+                $("#optionList2").empty();
+
+                for (var i = 0; i < secondOptionValues.length; i++) {
+                    var value_id = secondOptionValues[i];
+                    var value_name = secondOptionValues[i];
+
+                    $("#optionList2").append(
+                        '<li id="li_flavor_' + value_id + '" data-id="' + value_id + '" class="option2">' +
+                        '<span href="#" class="option-label">' + value_name + ' </span>' +
+                        '</li>'
+                    );
+                }
+            }
+        });
     });
 });

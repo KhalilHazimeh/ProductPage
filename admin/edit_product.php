@@ -43,6 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($key == 1) {
                 $secondOptionId = $optionId;
             }
+            else{
+                $secondOptionId = 'NULL';
+            }
             $updateOptionQuery = "INSERT INTO product_options (product_id, option_id) VALUES($id, $optionId)";
             $db->query($updateOptionQuery);
         }
