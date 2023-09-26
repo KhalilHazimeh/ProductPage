@@ -232,188 +232,71 @@ if ($product) {
             </div>
             </div>        
     </section>
-    <section class="info">
-        <form id= "addToCartForm">
-            <input type="hidden" name="product_id" value= "<?php echo $product_id ?>">
-            <input type="hidden" name="name" value= "<?php echo $product['name']; ?>">
-            <input type="hidden" name="price" value="<?php  echo $product['price']; ?>">
-            <input type="hidden" name="quantity" value="1">
-            <input type="hidden" name="option1" value= "<?php 'Size' ?>">
-            <input type="hidden" name="option1_Id" value= "<?php 'Size' ?>">
-            <input type="hidden" name="option2" value= "">
-            <input type="hidden" name="option2_Id" value= "">
-        <div class="info">
-            <div class="row">
-                <div class="col-xl-4 col-lg-4 image-box">
-                    <img class=" product-img img-fluid" src="<?php echo $product['image'];?>" alt="">
-                </div>
-                <div class="col-xl-5 col-lg-5 details">
-                    <div class="details-info">
-                        <h3 id="product-title"><?php echo $product['name']; ?></h3>
-                        <span class="free-delivery"><i class="las la-truck"></i>
-                            Free Delivery On Orders Above AED&nbsp;80
-                        </span>
-                        <p id="brand-title">Brand: <?php echo $product['brand_name']; ?></p>
-                    </div>
-                    <div class="details-info-middle">
-                        <div class="product-variants">
-                        <?php 
-                        $sql_option_id = "SELECT option_id FROM product_options WHERE product_id = $product_id";
-                        $result_option_id = $conn->query($sql_option_id);
-                        $idArray = array();
-                        if ($result_option_id->num_rows > 0) {
-                            while ($row_option_id = $result_option_id->fetch_assoc()) {
-                                $id = $row_option_id['option_id'];
-                                $idArray[]=$row_option_id['option_id'];
-                                
-                                echo '<div class="form-group variant-custom-selection">';
-                                echo '<div class="row">';
-                                echo '<div class="col-lg-6">';
-                                
-                                $sql_option_name = "SELECT name FROM options WHERE id = $id";
-                                $result_option_name = $conn->query($sql_option_name);
-                                if ($result_option_name->num_rows > 0) {
-                                    $row_option_name = $result_option_name->fetch_assoc();
-                                    echo '<label>' . $row_option_name['name'] . '</label>';
-                                }
-                                
-                                echo '</div>';
-                                echo '<div class="col-lg-14">';
-                                echo '<ul id="optionList'.$id.'" class="list-inline form-custom-radio custom-selection">';
-
-                                $printedValueNames = array();
-
-                                if ($id == $idArray[0]) {
-                                    $optionQuery = "SELECT first_option_value_id FROM product_option_combinations WHERE product_id = $product_id AND first_option_id= $id";
-                                    $result = $conn->query($optionQuery);
-                                    if ($result->num_rows > 0) {
-                                        while ($row_size = $result->fetch_assoc()) {
-                                            $value_id = $row_size['first_option_value_id'];
-                                            $valueQuery = "SELECT value_name FROM option_values WHERE id = $value_id";
-                                            $valueResult = $conn->query($valueQuery);
-                                            if ($valueResult->num_rows > 0) {
-                                                $valueRow = $valueResult->fetch_assoc();
-                                                $value_name = $valueRow['value_name'];
-                                                
-                                                if (!in_array($value_name, $printedValueNames)) {
-                                                    echo '<li id="li_size_'.$value_id.'" data-id="'.$value_id.'" class="option1">';
-                                                    echo '<span href="#" class="option-label">' . $value_name . ' </span>';
-                                                    echo '</li>';
-                                                    
-                                                    $printedValueNames[] = $value_name;
-                                                }
-                                            }
-                                        }
-                                echo '</ul>';
-                                echo '</div>';
-                                echo '</div>';
-                                echo '</div>';
-                                }
-                            }
-                            elseif ($id == $idArray[1]) {
-                            echo '<div class="optionList2"></div>';
-                        }
-                    }
-                    }
-                    ?>
-                    </div>
-
-                    <div class="bullet-points">
-                        <ul>
-                            <li>28 g Protein Per 30 g Serving (May vary from flavor to another)</li> 
-                            <li>0 sugar &amp; 0 carb &amp; 0 fat</li> 
-                            <li>Rapidly Absorbed</li> 
-                            <li>Supports Muscle Growth</li> 
-                            <li>Supports muscle recovery</li>
-                        </ul>
-                    </div> 
-                    <div class="additional-info-new">
-                        <ul>
-                            <li class="sku">
-                                <label>Barcode:</label> 
-                                <span>6290360501499</span>
-                            </li> 
-                            <li class="sku">
-                                <label>Item No:</label> 
-                                <span>AE-00015681</span>
-                            </li> 
-                            <li class="sku">
-                                <label>Dimensions:</label> 
-                                <span>21</span> 
-                                <span>×</span> 
-                                <span>31</span> 
-                                <span>×</span> 
-                                <span>21</span> 
-                                <span>CM</span>
-                            </li> 
-                            <li class="sku">
-                                <label>Weight:</label> 
-                                <span>1.82</span> 
-                                <span>KG</span>
-                            </li> 
-                            <li>
-                                <label>Categories:</label> 
-                                <div>
-                                    <?php
-                                        echo '<ul class="list-inline form-custom-radio custom-selection">';
-                                        $categoryNames = $productInfo->getProductCategories($product_id);
-                                        foreach ($categoryNames  as $categoryName) {
-                                            echo '<li class="">';
-                                            echo '<span href="#" class="option-label">' . $categoryName . ' </span>';
-                                            echo '</li>';
-                                        }
-                                        echo '</ul>';                                            
-                                    ?>
-                                    </div>
-                            </li>
-                        </ul>
-                    </div>
+    <section class="info-checkout" style = "padding:50px 100px 50px 100px ">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="information">
+                    <form action="place_order.php" method="post">
+                        <div class="row">
+                                <label>Full Name * </label>
+                                <div class="col-lg-6">
+                                <input type= "text" name="name" required></input>
+                            </div>
+                                <label>Phone Number * </label>
+                                <div class="col-lg-6">
+                                <input type= "number" name="number" required></input>
+                            </div>
+                                <label>Email Address * </label>
+                                <div class="col-lg-6">
+                                <input type= "email" name="email" required></input>
+                            </div>
+                                <label>Address * </label>
+                                <div class="col-lg-6">
+                                <input type= "text" name="add" required></input>
+                            </div>
+                            </div>
+                                <div class="col-lg-6 pt-4">
+                                <button type="submit" class="btn-success" style="border:none;width:75%;padding:5%">Place Order</button>
+                            </div>                        
+                    </form>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+            <div class="col-lg-4">
+                <div class="right-bar">
+                    <h3>ORDER SUMMARY</h3>
+                    <div class="cart-items">                     
+                        <?php
+                        $totalPrice = 0;
+                        foreach ($_SESSION['cart_items'] as $productId => $item) {
+                            $itemPrice = $item['Product_Price'];
+                            $totalPrice += $itemPrice;
 
-        <div class="col-xl-3 col-lg-3 right-side-bar">
-            <aside class="right-sidebar for-product-show">
-                <div class="details-info-middle right-product-details">
-                    <div class="product-price d-none d-md-block">
-                        <span class="pricee">AED <span id="originalPrice"><?php echo $product['price'];?></span> </span>
-                        <span class="previous-price">AED <?php echo $product['old-price']; ?></span>
+                            echo '<div class="item" data-index="' . $productId . '" id="item-' . $productId . '">';
+                            echo 'Name: ' . $item['Product_Name'];
+                            echo '<br>';
+                            echo 'Option 1: ' . $item['Product_Option1'];
+                            echo '<br>';
+                            echo 'Option 2: ' . $item['Product_Option2'];
+                            echo '<br>';
+                            echo 'Price per unit: ' . $item['Product_Price'] . ' AED';
+                            echo '<br>';
+                            echo 'Quantity: ' . $item['Product_Quantity'];
+                            echo '<br>';
+                            echo 'Subtotal: ' . $itemPrice . ' AED';
+                            echo '</li>';
+                            echo '<div class="divider" style="border-top: 1px solid #ccc;margin: 10px 0;"></div>';
+                        }
+                        ?>
                     </div>
-                    <div class="details-info-middle-actions">
-                        <div class="number-picker">
-                            <label for="qty">Quantity</label> 
-                            <button type="button" onclick="decrement()" class="btn btn-number btn-minus">
-                                <i class="fa-solid fa-minus"></i>
-                            </button> 
-                            <span id="counter">1</span>
-                            <button type="button" onclick="increment()" class="btn btn-number btn-plus">
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-                        </div>
+                    <hr>
                     <div>
-                        <button id ="addToCartButton" class="btn-add-to-cart">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            Add to Cart
-                        </button>
-                        <div class="btn-add-to-cart" id="loading" style="display: none;">Loading...</div>
-                        <div id="message"></div>
+                        Total Price: <?php echo $totalPrice; ?> AED
                     </div>
-                    </div>
-                    <div>
-                        <button type="button" class="btn-checkout" id="checkoutButton">
-                            <i class="fa-solid fa-money-check-dollar"></i>   
-                            Continue to Checkout
-                        </button>
-                    </div>
-                </div>
-        </aside>
-    </div>
-</div>
-</div>
-</form>
-</section>
+                </div>          
+            </div>
+        </div>
+
+    </section>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/all.min.js"></script>

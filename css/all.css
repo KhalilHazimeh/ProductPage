@@ -3,6 +3,11 @@ body{
     background-color: white;
 }
 
+
+#openNavBtn{
+    border:none;
+}
+
 a{
     text-decoration: none!important;
 }
@@ -367,7 +372,7 @@ a{
     border: 2px solid #723881;
 }
 
-.right-sidebar .btn-checkout{
+.right-sidebar .btn-checkout1{
     color: #28a71a;
     background: #fff;
     padding: 15px;
@@ -637,4 +642,3 @@ table.table .avatar {
 .modal form label {
     font-weight: normal;
 }
-

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 21, 2023 at 07:34 PM
+-- Generation Time: Sep 26, 2023 at 04:45 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -126,6 +126,60 @@ INSERT INTO `option_values` (`id`, `option_id`, `value_name`) VALUES
 (28, 1, 'Strawberry Cotton Candy'),
 (29, 1, 'Cookies and Cream'),
 (30, 1, 'Double Chip Chocolate');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `order_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `phone_number` varchar(20) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `total_price` decimal(10,0) NOT NULL,
+  `order_date` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `name`, `phone_number`, `email`, `address`, `total_price`, `order_date`) VALUES
+(4, 'Khalil Hazimeh', '70420961', 'khalkhool1999@gmail.com', 'Hariri Building Shohada Square - Zaroob Njasa - Hariri Buidling - 7th floor', 24059, '2023-09-26 14:38:07'),
+(5, 'Rami Mohsen', '03239957', 'rami@gmail.com', 'Hariri Building Shohada Square - Zaroob Njasa - Hariri Buidling - 7th floor', 957, '2023-09-26 14:39:12');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_products`
+--
+
+CREATE TABLE `order_products` (
+  `order_product_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `option1_id` int(11) NOT NULL,
+  `option2_id` int(11) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_products`
+--
+
+INSERT INTO `order_products` (`order_product_id`, `order_id`, `product_id`, `option1_id`, `option2_id`, `quantity`, `price`) VALUES
+(4, 4, 1, 18, 8, 4, 4964.00),
+(5, 4, 1, 14, 5, 1, 1241.00),
+(6, 4, 2, 17, 5, 2, 638.00),
+(7, 4, 2, 14, 9, 2, 638.00),
+(8, 4, 34, 15, 0, 1, 410.00),
+(9, 5, 2, 19, 5, 1, 319.00),
+(10, 5, 2, 17, 5, 1, 319.00),
+(11, 5, 2, 14, 9, 1, 319.00);
 
 -- --------------------------------------------------------
 
@@ -285,6 +339,20 @@ ALTER TABLE `option_values`
   ADD KEY `key-name-1` (`option_id`);
 
 --
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`order_id`);
+
+--
+-- Indexes for table `order_products`
+--
+ALTER TABLE `order_products`
+  ADD PRIMARY KEY (`order_product_id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -352,6 +420,18 @@ ALTER TABLE `option_values`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `order_products`
+--
+ALTER TABLE `order_products`
+  MODIFY `order_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
@@ -384,6 +464,13 @@ ALTER TABLE `users`
 --
 ALTER TABLE `option_values`
   ADD CONSTRAINT `key-name-1` FOREIGN KEY (`option_id`) REFERENCES `options` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `order_products`
+--
+ALTER TABLE `order_products`
+  ADD CONSTRAINT `order_products_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
+  ADD CONSTRAINT `order_products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 --
 -- Constraints for table `products`

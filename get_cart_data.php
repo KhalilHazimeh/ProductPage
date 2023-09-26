@@ -5,10 +5,11 @@ $cartItems = [];
 if (isset($_SESSION['cart_items']) && is_array($_SESSION['cart_items'])) {
     foreach ($_SESSION['cart_items'] as $id => $item) {
         $cartItems[] = [
+            'Proudct_Id' =>  $id,
             'Product_Name' => $item['Product_Name'],
-            'Product_Size' => $item['Product_Size'],
+            'Product_Option1' => $item['Product_Option1'],
             'Product_Quantity' => $item['Product_Quantity'],
-            'Product_Flavor' => $item['Product_Flavor'],
+            'Product_Option2' => $item['Product_Option2'],
             'Product_Price' => $item['Product_Price']
         ];
     }
