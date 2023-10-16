@@ -141,6 +141,7 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
                         <th>Brand Name</th>
                         <th>Categories</th>
                         <th>Actions</th>
+						<th>View</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -169,7 +170,10 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
                         echo '<a href="products.php?showEditModal=1&id='.$product['id'].'" data-id="'.$product['id'].'" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>';
                         echo '<a href="products.php?showDeleteModal=1&id='.$product['id'].'" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>';
                         echo '</td>';
-                        echo '</tr>';
+                        echo '<td>';
+						echo '<a href="../home.php?product_id'.$product['id'].'"><i class="material-icons" title="View">&#xE8F4;</i></a>';
+                        echo '</td>';
+						echo '</tr>';
                     }
                     ?>
                 </tbody>

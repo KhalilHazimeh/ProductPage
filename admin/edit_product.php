@@ -21,6 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $db->query($deleteCombinationsQuery);
         $deleteOptioQuery = "DELETE FROM product_options WHERE product_id = $id";
         $db->query($deleteOptioQuery);
+        $deleteCat = "DELETE FROM product_categories WHERE product_id = $id";
+        $db->query($deleteCat);
 
         $price = $_POST["price"];
         $old_price = $_POST["oldPrice"];
@@ -33,8 +35,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $secondOptionId = 0;
 
         $updateProductQuery = "UPDATE products SET name = '$name', price = $price, `old-price` = $old_price, image = '$image', brand_id = $brand_id WHERE id = $id";
-        echo($updateProductQuery);
         $db->query($updateProductQuery);
+        
+        foreach($selectedCategories as $category){
+            $addCategory = "INSERT INTO product_categories (product_id, category_id) VALUES($id, $category)";
+            $db->query($addCategory);
+        }
 
         foreach ($optionIds as $key => $optionId) {
             if ($key == 0) {
