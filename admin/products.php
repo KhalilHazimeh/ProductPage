@@ -171,7 +171,7 @@ if(isset($_GET['showEditModal']) && isset($_GET['id'])){
                         echo '<a href="products.php?showDeleteModal=1&id='.$product['id'].'" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>';
                         echo '</td>';
                         echo '<td>';
-						echo '<a href="../home.php?product_id'.$product['id'].'"><i class="material-icons" title="View">&#xE8F4;</i></a>';
+						echo '<a href="../home.php?product_id='.$product['id'].'"><i class="material-icons" title="View">&#xE8F4;</i></a>';
                         echo '</td>';
 						echo '</tr>';
                     }
